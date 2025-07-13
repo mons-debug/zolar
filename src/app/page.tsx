@@ -280,9 +280,8 @@ export default function Home() {
           onLoadStart={() => console.log('Video loading started')}
           onCanPlay={() => console.log('Video can play')}
         >
-          {/* Video sources temporarily disabled for immediate deployment */}
-          {/* <source src="/background-video.webm" type="video/webm" /> */}
-          {/* <source src="/background-video.mp4" type="video/mp4" /> */}
+          <source src="/background-video.webm" type="video/webm" />
+          <source src="/background-video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         
