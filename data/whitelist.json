@@ -10,5 +10,17 @@
     "phone": "+212687654321",
     "createdAt": "2025-07-13T16:08:29.433Z",
     "updatedAt": "2025-07-13T16:08:29.433Z"
+  },
+  {
+    "id": "md1vpwwjglvpdpmh57u",
+    "email": "file-test@zolar.com",
+    "createdAt": "2025-07-13T16:18:43.795Z",
+    "updatedAt": "2025-07-13T16:18:43.795Z"
+  },
+  {
+    "id": "md1vs4mkx46hyg37vaf",
+    "email": "file-storage-test@zolar.com",
+    "createdAt": "2025-07-13T16:20:27.116Z",
+    "updatedAt": "2025-07-13T16:20:27.116Z"
   }
 ]

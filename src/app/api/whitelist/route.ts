@@ -33,16 +33,20 @@ export async function POST(request: NextRequest) {
     const email = validatedData.email && validatedData.email.length > 0 ? validatedData.email : null;
     const phone = validatedData.phone && validatedData.phone.length > 0 ? validatedData.phone : null;
     
-    // Check for existing entries (handle potential duplicates gracefully)
+    // Check for existing entries with proper error handling
+    let existingEntry = null;
     try {
-      const existingEntry = await prisma.whitelistEntry.findFirst({
-        where: {
-          OR: [
-            email ? { email } : {},
-            phone ? { phone } : {}
-          ].filter(condition => Object.keys(condition).length > 0)
-        }
-      });
+      if (email) {
+        existingEntry = await prisma.whitelistEntry.findFirst({
+          where: { email }
+        });
+      }
+      
+      if (!existingEntry && phone) {
+        existingEntry = await prisma.whitelistEntry.findFirst({
+          where: { phone }
+        });
+      }
       
       if (existingEntry) {
         let message = 'Vous êtes déjà inscrit à la liste d\'attente !';
@@ -58,10 +62,11 @@ export async function POST(request: NextRequest) {
         );
       }
     } catch (findError: any) {
-      console.log('Find query error (continuing):', findError.message);
+      console.log('Find query handled:', findError.message);
+      // Continue to create - duplicate will be caught by unique constraint
     }
     
-    // Create new entry (handle MongoDB without transactions)
+    // Create new entry with duplicate handling
     try {
       const newEntry = await prisma.whitelistEntry.create({
         data: {
@@ -70,7 +75,9 @@ export async function POST(request: NextRequest) {
         }
       });
       
-      console.log('✅ New whitelist entry created:', newEntry.id);
+      console.log('✅ MongoDB Atlas entry created:', newEntry.id);
+      console.log('📧 Email:', newEntry.email || 'None');
+      console.log('📱 Phone:', newEntry.phone || 'None');
       
       // Send WhatsApp message if phone number is provided
       if (phone) {
@@ -84,22 +91,28 @@ export async function POST(request: NextRequest) {
       }
       
       return NextResponse.json(
-        { message: 'Merci ! Vous serez averti dès que la collection sera disponible.' },
+        { 
+          message: 'Merci ! Vous serez averti dès que la collection sera disponible.',
+          id: newEntry.id,
+          storage: 'MongoDB Atlas'
+        },
         { status: 200 }
       );
       
     } catch (createError: any) {
       // Handle duplicate key error specifically
-      if (createError.code === 'P2002' || createError.message.includes('duplicate')) {
+      if (createError.code === 'P2002' || createError.message.includes('duplicate') || createError.message.includes('E11000')) {
         return NextResponse.json(
           { error: 'Cette adresse est déjà inscrite à la liste d\'attente !' },
           { status: 409 }
         );
       }
+      
+      console.error('MongoDB create error:', createError);
       throw createError;
     }
     
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: error.issues[0].message },
@@ -127,19 +140,24 @@ export async function GET() {
     
     return NextResponse.json(
       { 
-        message: 'API de la liste d\'attente',
+        message: 'API de la liste d\'attente (MongoDB Atlas)',
         stats: {
           total: count,
           email: emailCount,
           phone: phoneCount
-        }
+        },
+        storage: 'MongoDB Atlas'
       },
       { status: 200 }
     );
   } catch (error) {
     console.error('Error fetching whitelist stats:', error);
     return NextResponse.json(
-      { message: 'API de la liste d\'attente' },
+      { 
+        message: 'API de la liste d\'attente (MongoDB Atlas)',
+        error: 'Could not fetch stats',
+        storage: 'MongoDB Atlas'
+      },
       { status: 200 }
     );
   }
