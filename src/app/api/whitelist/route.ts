@@ -61,8 +61,9 @@ export async function POST(request: NextRequest) {
           { status: 409 }
         );
       }
-    } catch (findError: any) {
-      console.log('Find query handled:', findError.message);
+    } catch (findError) {
+      const error = findError as Error;
+      console.log('Find query handled:', error.message);
       // Continue to create - duplicate will be caught by unique constraint
     }
     
@@ -99,20 +100,21 @@ export async function POST(request: NextRequest) {
         { status: 200 }
       );
       
-    } catch (createError: any) {
+    } catch (createError) {
+      const error = createError as Error & { code?: string };
       // Handle duplicate key error specifically
-      if (createError.code === 'P2002' || createError.message.includes('duplicate') || createError.message.includes('E11000')) {
+      if (error.code === 'P2002' || error.message.includes('duplicate') || error.message.includes('E11000')) {
         return NextResponse.json(
           { error: 'Cette adresse est déjà inscrite à la liste d\'attente !' },
           { status: 409 }
         );
       }
       
-      console.error('MongoDB create error:', createError);
-      throw createError;
+      console.error('MongoDB create error:', error);
+      throw error;
     }
     
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: error.issues[0].message },
@@ -120,7 +122,8 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    console.error('Whitelist submission error:', error);
+    const err = error as Error;
+    console.error('Whitelist submission error:', err);
     return NextResponse.json(
       { error: 'Une erreur est survenue. Veuillez réessayer.' },
       { status: 500 }

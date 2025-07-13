@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
     
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: error.issues[0].message },
@@ -80,14 +80,15 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    if (error.message === 'Entry already exists') {
+    const err = error as Error;
+    if (err.message === 'Entry already exists') {
       return NextResponse.json(
         { error: 'Cette adresse est déjà inscrite à la liste d\'attente !' },
         { status: 409 }
       );
     }
     
-    console.error('Whitelist submission error:', error);
+    console.error('Whitelist submission error:', err);
     return NextResponse.json(
       { error: 'Une erreur est survenue. Veuillez réessayer.' },
       { status: 500 }

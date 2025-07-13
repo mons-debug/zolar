@@ -22,5 +22,17 @@
     "email": "file-storage-test@zolar.com",
     "createdAt": "2025-07-13T16:20:27.116Z",
     "updatedAt": "2025-07-13T16:20:27.116Z"
+  },
+  {
+    "id": "md1wazenh3387vznmo",
+    "phone": "+212612345678",
+    "createdAt": "2025-07-13T16:35:06.815Z",
+    "updatedAt": "2025-07-13T16:35:06.815Z"
+  },
+  {
+    "id": "md1wb81dvfkcgbwvbe",
+    "phone": "0687654321",
+    "createdAt": "2025-07-13T16:35:18.001Z",
+    "updatedAt": "2025-07-13T16:35:18.001Z"
   }
 ]
