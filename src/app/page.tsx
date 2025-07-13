@@ -268,20 +268,36 @@ export default function Home() {
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           className="absolute inset-0 w-full h-full object-cover will-change-transform"
           style={{ objectPosition: 'center center' }}
+          poster="/zolar-logo.png"
+          onError={(e) => {
+            console.log('Video error:', e);
+            // Hide video on error and show gradient background
+            e.currentTarget.style.display = 'none';
+          }}
+          onLoadStart={() => console.log('Video loading started')}
+          onCanPlay={() => console.log('Video can play')}
         >
-          <source src="/background-video-new.mov" type="video/quicktime" />
           <source src="/background-video-new.mov" type="video/mp4" />
+          <source src="/background-video.mov" type="video/mp4" />
+          Your browser does not support the video tag.
         </video>
         
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
+        {/* Enhanced mobile gradient fallback */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/40 via-black/90 to-pink-900/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/70" />
       </div>
 
-      {/* Desktop Background */}
+      {/* Desktop Background with Enhanced Gradient */}
       <div className="absolute inset-0 hidden md:block">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/40 via-black to-pink-900/40" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/60 via-black to-pink-900/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
+        {/* Animated gradient orbs for desktop */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/15 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-600/15 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
       {/* Optimized gradient orbs */}
