@@ -214,7 +214,7 @@ export default function Home() {
     }
 
     try {
-      const response = await fetch('/api/whitelist', {
+      const response = await fetch('/api/whitelist-test', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
