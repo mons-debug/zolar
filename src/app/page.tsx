@@ -241,17 +241,46 @@ export default function Home() {
           loop
           muted
           playsInline
+          preload="metadata"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: 'center center', zIndex: 1 }}
+          onError={(e) => {
+            console.error('Video error:', e);
+            console.log('Video failed to load, using fallback background');
+          }}
+          onLoadStart={() => console.log('📹 Video loading started')}
+          onCanPlay={() => console.log('✅ Video can play')}
+          onLoadedData={() => console.log('📹 Video data loaded')}
+          onPlay={() => console.log('▶️ Video playing')}
+        >
+          <source src="/background-video.webm" type="video/webm" />
+          <source src="/background-video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        
+        {/* Subtle overlay for video visibility */}
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/50" />
+
+      </div>
+
+      {/* Desktop Background Video Layer */}
+      <div className="absolute inset-0 hidden md:block">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
           preload="auto"
           className="absolute inset-0 w-full h-full object-cover will-change-transform"
           style={{ objectPosition: 'center center' }}
           poster="/zolar-logo.png"
           onError={(e) => {
-            console.log('Video error:', e);
-            // Hide video on error and show gradient background
+            console.log('Desktop video error:', e);
             e.currentTarget.style.display = 'none';
           }}
-          onLoadStart={() => console.log('Video loading started')}
-          onCanPlay={() => console.log('Video can play')}
+          onLoadStart={() => console.log('Desktop video loading started')}
+          onCanPlay={() => console.log('Desktop video can play')}
         >
           <source src="/background-video.webm" type="video/webm" />
           <source src="/background-video.mp4" type="video/mp4" />
@@ -259,13 +288,6 @@ export default function Home() {
         </video>
         
         {/* Clean dark overlay for video */}
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70" />
-
-      </div>
-
-      {/* Desktop Background - Clean dark overlay for video */}
-      <div className="absolute inset-0 hidden md:block">
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40" />
       </div>
