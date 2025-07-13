@@ -280,14 +280,43 @@ export default function Home() {
           onLoadStart={() => console.log('Video loading started')}
           onCanPlay={() => console.log('Video can play')}
         >
-          <source src="/background-video-new.mov" type="video/mp4" />
-          <source src="/background-video.mov" type="video/mp4" />
+          {/* Video sources temporarily disabled for immediate deployment */}
+          {/* <source src="/background-video.webm" type="video/webm" /> */}
+          {/* <source src="/background-video.mp4" type="video/mp4" /> */}
           Your browser does not support the video tag.
         </video>
         
         {/* Enhanced mobile gradient fallback */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/40 via-black/90 to-pink-900/50" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/50 via-black/95 to-pink-900/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/80" />
+        {/* Animated mobile gradient orbs */}
+        <motion.div
+          className="absolute top-1/3 left-1/4 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl"
+          animate={{
+            x: [0, 50, 0],
+            y: [0, -30, 0],
+            scale: [1, 1.3, 1],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-pink-600/25 rounded-full blur-3xl"
+          animate={{
+            x: [0, -40, 0],
+            y: [0, 40, 0],
+            scale: [1, 1.4, 1],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
       </div>
 
       {/* Desktop Background with Enhanced Gradient */}
