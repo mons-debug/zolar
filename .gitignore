@@ -41,7 +41,8 @@ yarn-error.log*
 next-env.d.ts
 
 /src/generated/prisma
-# Video assets
-public/*.mp4
+# Video assets (allow background videos)
 public/*.mov
-public/*.webm
+# Allow background videos for deployment
+!public/background-video.mp4
+!public/background-video.webm

@@ -286,11 +286,11 @@ export default function Home() {
         </video>
         
         {/* Enhanced mobile gradient fallback */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/50 via-black/95 to-pink-900/60" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-black/95 to-pink-900/40" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/80" />
         {/* Animated mobile gradient orbs */}
         <motion.div
-          className="absolute top-1/3 left-1/4 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl"
+          className="absolute top-1/3 left-1/4 w-72 h-72 bg-purple-600/12 rounded-full blur-3xl"
           animate={{
             x: [0, 50, 0],
             y: [0, -30, 0],
@@ -303,7 +303,7 @@ export default function Home() {
           }}
         />
         <motion.div
-          className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-pink-600/25 rounded-full blur-3xl"
+          className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-pink-600/15 rounded-full blur-3xl"
           animate={{
             x: [0, -40, 0],
             y: [0, 40, 0],
@@ -320,18 +320,18 @@ export default function Home() {
 
       {/* Desktop Background with Enhanced Gradient */}
       <div className="absolute inset-0 hidden md:block">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/60 via-black to-pink-900/60" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/40 via-black to-pink-900/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
         {/* Animated gradient orbs for desktop */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/15 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-600/15 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-600/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-blue-600/8 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
       {/* Optimized gradient orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-purple-600/15 to-transparent rounded-full blur-3xl will-change-transform"
+          className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-purple-600/10 to-transparent rounded-full blur-3xl will-change-transform"
           animate={{
             x: [0, 100, 0],
             y: [0, -100, 0],
@@ -344,7 +344,7 @@ export default function Home() {
           }}
         />
         <motion.div
-          className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-pink-600/15 to-transparent rounded-full blur-3xl will-change-transform"
+          className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-pink-600/10 to-transparent rounded-full blur-3xl will-change-transform"
           animate={{
             x: [0, -100, 0],
             y: [0, 100, 0],
