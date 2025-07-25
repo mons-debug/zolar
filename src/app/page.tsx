@@ -253,7 +253,7 @@ export default function Home() {
           onLoadedData={() => console.log('📹 Video data loaded')}
           onPlay={() => console.log('▶️ Video playing')}
         >
-          <source src="/img-1582.mp4" type="video/mp4" />
+          <source src="/img-1582-compressed.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         
