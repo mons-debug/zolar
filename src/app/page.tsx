@@ -27,10 +27,10 @@ const LoadingScreen = memo(() => (
     >
       <div className="relative">
         <motion.div
-          className="absolute inset-0 bg-white/30 rounded-full blur-3xl"
+          className="absolute inset-0 bg-white/20 rounded-full blur-2xl"
           animate={{
             scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3],
+            opacity: [0.2, 0.4, 0.2],
           }}
           transition={{
             duration: 2,
@@ -43,7 +43,7 @@ const LoadingScreen = memo(() => (
           alt="ZOLAR"
           width={200}
           height={80}
-          className="h-20 w-auto relative z-10 drop-shadow-2xl"
+          className="h-20 w-auto relative z-10 drop-shadow-lg"
           priority
           quality={90}
         />
@@ -61,7 +61,7 @@ const LoadingScreen = memo(() => (
         {[0, 0.2, 0.4].map((delay, index) => (
           <motion.div
             key={index}
-            className="w-2 h-2 bg-white rounded-full"
+            className="w-2 h-2 bg-white/80 rounded-full"
             animate={{
               scale: [1, 1.5, 1],
               opacity: [0.5, 1, 0.5],
@@ -95,8 +95,8 @@ const ToggleButton = memo(({
   <button
     type="button"
     onClick={onClick}
-    className={`relative z-10 flex-1 py-4 px-6 text-sm font-medium rounded-xl transition-all duration-300 flex items-center justify-center gap-2 ${
-      isActive ? 'text-black' : 'text-white/90 hover:text-white'
+    className={`relative z-10 flex-1 py-3.5 px-5 text-sm font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 ${
+      isActive ? 'text-gray-900 shadow-sm' : 'text-white/90 hover:text-white hover:bg-white/5'
     }`}
   >
     {icon}
@@ -128,7 +128,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2200); // Reduced from 2500ms
+    }, 2200);
 
     return () => clearTimeout(timer);
   }, []);
@@ -234,8 +234,8 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-black overflow-hidden">
-      {/* Optimized Background Video Layer - Mobile Only */}
-      <div className="absolute inset-0 md:hidden">
+      {/* Enhanced Background Video Layer - Both Mobile and Desktop */}
+      <div className="absolute inset-0">
         <video
           autoPlay
           loop
@@ -253,46 +253,15 @@ export default function Home() {
           onLoadedData={() => console.log('📹 Video data loaded')}
           onPlay={() => console.log('▶️ Video playing')}
         >
-          <source src="/background-video.webm" type="video/webm" />
-          <source src="/background-video.mp4" type="video/mp4" />
+          <source src="/img-1582.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         
-        {/* Subtle overlay for video visibility */}
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/50" />
-
+        {/* Enhanced dark overlay for better content visibility */}
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
       </div>
-
-      {/* Desktop Background Video Layer */}
-      <div className="absolute inset-0 hidden md:block">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover will-change-transform"
-          style={{ objectPosition: 'center center' }}
-          poster="/zolar-logo.png"
-          onError={(e) => {
-            console.log('Desktop video error:', e);
-            e.currentTarget.style.display = 'none';
-          }}
-          onLoadStart={() => console.log('Desktop video loading started')}
-          onCanPlay={() => console.log('Desktop video can play')}
-        >
-          <source src="/background-video.webm" type="video/webm" />
-          <source src="/background-video.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        
-        {/* Clean dark overlay for video */}
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40" />
-      </div>
-
-
 
       {/* Main Content */}
       <motion.div
@@ -301,44 +270,47 @@ export default function Home() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="relative z-50 flex flex-col items-center justify-center min-h-screen px-4"
       >
-        {/* Logo - Positioned at top-center */}
+        {/* Logo - Enhanced with cleaner shadow */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex justify-center mb-8 pt-8"
+          className="flex justify-center mb-12 pt-8"
         >
           <div className="relative">
-            <div className="absolute inset-0 bg-white/40 blur-3xl rounded-full" />
+            <div className="absolute inset-0 bg-white/20 blur-2xl rounded-full scale-110" />
             <Image
               src="/zolar-logo.png"
               alt="ZOLAR"
-              width={180}
-              height={72}
-              className="h-18 w-auto relative z-10 drop-shadow-2xl"
+              width={200}
+              height={80}
+              className="h-20 w-auto relative z-10 drop-shadow-lg filter brightness-110"
               priority
-              quality={90}
-              sizes="180px"
+              quality={95}
+              sizes="200px"
             />
           </div>
         </motion.div>
 
-        {/* Modern Countdown Component */}
+        {/* Enhanced Countdown Component with Modern Glass Design */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex justify-center mb-8"
+          className="flex justify-center mb-12"
         >
-          <div className="relative backdrop-blur-[80px] bg-white/5 border border-white/15 rounded-2xl p-6 shadow-2xl overflow-hidden">
+          <div className="relative backdrop-blur-md bg-white/15 border border-white/25 rounded-2xl p-6 shadow-2xl overflow-hidden">
+            {/* Subtle glass gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 rounded-2xl pointer-events-none" />
+            <div className="absolute inset-[1px] bg-gradient-to-b from-white/15 to-transparent rounded-2xl pointer-events-none" />
             
             <div className="relative z-10">
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.4 }}
-                className="text-white/80 text-center text-sm mb-4 font-medium"
+                className="text-white text-center text-sm mb-4 font-medium"
+                style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}
               >
                 Lancement dans
               </motion.p>
@@ -362,8 +334,8 @@ export default function Home() {
                     }}
                     className="flex flex-col items-center"
                   >
-                    <div className="relative backdrop-blur-[60px] bg-white/8 border border-white/20 rounded-xl p-3 min-w-[60px] shadow-lg">
-                      <div className="absolute inset-0 bg-gradient-to-b from-white/15 to-transparent rounded-xl pointer-events-none" />
+                    <div className="relative backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl p-3 min-w-[60px] shadow-lg">
+                      <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-white/5 rounded-xl pointer-events-none" />
                       <AnimatePresence mode="wait">
                         <motion.span
                           key={`${item.label}-${item.value}`}
@@ -377,30 +349,23 @@ export default function Home() {
                             duration: 0.3
                           }}
                           className="relative z-10 text-white text-xl font-bold block text-center tabular-nums"
+                          style={{ textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}
                         >
                           {item.value.toString().padStart(2, '0')}
                         </motion.span>
                       </AnimatePresence>
                     </div>
-                    <span className="text-white/70 text-xs mt-2 font-medium">
+                    <span className="text-white/90 text-xs mt-2 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
                       {item.label}
                     </span>
                   </motion.div>
                 ))}
               </div>
-              
-              {/* Animated accent line */}
-              <motion.div
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
-                className="mt-4 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
-              />
             </div>
           </div>
         </motion.div>
 
-        {/* Glass Card */}
+        {/* Modern Enhanced Glass Card */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -408,46 +373,53 @@ export default function Home() {
           className="w-full max-w-md"
         >
           <motion.div
-            className="relative backdrop-blur-[100px] bg-white/5 border border-white/10 rounded-3xl shadow-2xl p-8 overflow-hidden"
+            className="relative backdrop-blur-xl bg-white/15 border border-white/30 rounded-3xl shadow-2xl p-8 overflow-hidden"
             whileHover={{ 
-              scale: 1.01,
+              scale: 1.005,
               transition: { duration: 0.2 }
             }}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-white/3 rounded-3xl pointer-events-none" />
+            {/* Refined glass gradient layers */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-white/5 rounded-3xl pointer-events-none" />
+            <div className="absolute inset-[1px] bg-gradient-to-b from-white/25 to-transparent rounded-3xl pointer-events-none" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+            <div className="absolute inset-0 shadow-inner shadow-white/10 rounded-3xl pointer-events-none" />
             
             <div className="relative z-10">
-              {/* Title */}
+              {/* Enhanced Title with better typography */}
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="text-2xl md:text-3xl font-bold text-white text-center mb-4 leading-tight"
+                style={{ textShadow: '0 2px 8px rgba(0,0,0,0.7)' }}
               >
                 Collection Exclusive
               </motion.h1>
 
-              {/* Subtitle */}
+              {/* Enhanced Subtitle */}
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className="text-white/90 text-center text-sm mb-8 leading-relaxed"
+                className="text-white/95 text-center text-sm mb-8 leading-relaxed"
+                style={{ textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}
               >
                 Choisis comment être averti du lancement
               </motion.p>
 
-              {/* Toggle Switch */}
+              {/* Enhanced Toggle Switch with Modern Glass */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
                 className="mb-6"
               >
-                <div className="relative bg-white/3 backdrop-blur-[80px] rounded-2xl p-1 border border-white/10">
+                <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-1 border border-white/30 shadow-inner">
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent rounded-2xl pointer-events-none" />
                   <div className="flex relative">
                     <motion.div
-                      className="absolute top-1 bottom-1 bg-white/95 rounded-xl shadow-xl backdrop-blur-sm"
+                      className="absolute top-1 bottom-1 bg-white/95 rounded-xl shadow-lg backdrop-blur-sm"
                       initial={false}
                       animate={{
                         left: notificationMethod === 'email' ? '4px' : '50%',
@@ -489,7 +461,7 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Form */}
+              {/* Enhanced Form */}
               <motion.form
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -512,7 +484,8 @@ export default function Home() {
                         value={email}
                         onChange={handleEmailChange}
                         placeholder="ton@email.com"
-                        className="w-full px-4 py-4 bg-white/5 backdrop-blur-[80px] border border-white/15 rounded-2xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/25 transition-all duration-200 text-sm"
+                        className="w-full px-4 py-4 bg-white/15 backdrop-blur-lg border border-white/30 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-sm shadow-inner"
+                        style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
                         required
                         autoComplete="email"
                       />
@@ -531,7 +504,8 @@ export default function Home() {
                         value={phone}
                         onChange={handlePhoneChange}
                         placeholder="+212 6 12 34 56 78"
-                        className="w-full px-4 py-4 bg-white/5 backdrop-blur-[80px] border border-white/15 rounded-2xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/25 transition-all duration-200 text-sm"
+                        className="w-full px-4 py-4 bg-white/15 backdrop-blur-lg border border-white/30 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-sm shadow-inner"
+                        style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
                         required
                         autoComplete="tel"
                       />
@@ -539,20 +513,20 @@ export default function Home() {
                   )}
                 </AnimatePresence>
 
-                {/* Submit Button */}
+                {/* Enhanced Submit Button */}
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className="relative w-full py-4 bg-white/98 backdrop-blur-sm text-black font-bold rounded-2xl overflow-hidden group transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.5)] hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed text-sm mt-6"
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
+                  className="relative w-full py-4 bg-white/95 backdrop-blur-sm text-gray-900 font-bold rounded-2xl overflow-hidden group transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed text-sm mt-6 border border-white/20"
+                  whileHover={{ scale: 1.005 }}
+                  whileTap={{ scale: 0.995 }}
                 >
-                  <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   
                   <span className="relative z-10 flex items-center justify-center">
                     {isSubmitting ? (
                       <>
-                        <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-gray-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
@@ -576,7 +550,7 @@ export default function Home() {
                   </span>
                 </motion.button>
 
-                {/* Messages */}
+                {/* Enhanced Messages */}
                 <AnimatePresence>
                   {message && (
                     <motion.div
@@ -586,13 +560,13 @@ export default function Home() {
                       transition={{ duration: 0.2 }}
                       className={`overflow-hidden rounded-2xl mt-4 ${
                         messageType === 'error' 
-                          ? 'bg-red-500/10 border border-red-500/20 backdrop-blur-[80px]' 
-                          : 'bg-green-500/10 border border-green-500/20 backdrop-blur-[80px]'
+                          ? 'bg-red-500/15 border border-red-400/30 backdrop-blur-lg' 
+                          : 'bg-green-500/15 border border-green-400/30 backdrop-blur-lg'
                       }`}
                     >
                       <p className={`p-4 text-sm text-center ${
                         messageType === 'error' ? 'text-red-200' : 'text-green-200'
-                      }`}>
+                      }`} style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
                         {message}
                       </p>
                     </motion.div>
@@ -600,12 +574,13 @@ export default function Home() {
                 </AnimatePresence>
               </motion.form>
 
-              {/* Privacy Note */}
+              {/* Enhanced Privacy Note */}
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8, duration: 0.4 }}
-                className="mt-6 text-center text-white/60 text-xs"
+                className="mt-6 text-center text-white/70 text-xs"
+                style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
               >
                 🔒 Tes données sont sécurisées. Aucun spam.
               </motion.p>
