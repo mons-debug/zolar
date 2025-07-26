@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { sendWhatsAppMessage } from '@/lib/whatsapp';
+import { fileStorage } from '@/lib/file-storage';
 
 // Phone number validation for Morocco format
 const phoneRegex = /^(\+212|0)[5-7]\d{8}$/;
@@ -33,26 +34,23 @@ export async function POST(request: NextRequest) {
     const email = validatedData.email && validatedData.email.length > 0 ? validatedData.email : null;
     const phone = validatedData.phone && validatedData.phone.length > 0 ? validatedData.phone : null;
     
-    // Check for existing entries with proper error handling
-    let existingEntry = null;
+    // Fast check: Use file storage directly (MongoDB fallback is too slow)
+    console.log('🚀 Using fast file storage for instant response');
+    
+    // Check file storage for duplicates (instant)
     try {
-      if (email) {
-        existingEntry = await prisma.whitelistEntry.findFirst({
-          where: { email }
-        });
-      }
+      const fileEntries = await fileStorage.findFirst({
+        OR: [
+          email ? { email } : {},
+          phone ? { phone } : {}
+        ].filter(condition => Object.keys(condition).length > 0)
+      });
       
-      if (!existingEntry && phone) {
-        existingEntry = await prisma.whitelistEntry.findFirst({
-          where: { phone }
-        });
-      }
-      
-      if (existingEntry) {
+      if (fileEntries) {
         let message = 'Vous êtes déjà inscrit à la liste d\'attente !';
-        if (existingEntry.email === email) {
+        if (fileEntries.email === email) {
           message = 'Cette adresse email est déjà inscrite à la liste d\'attente !';
-        } else if (existingEntry.phone === phone) {
+        } else if (fileEntries.phone === phone) {
           message = 'Ce numéro WhatsApp est déjà inscrit à la liste d\'attente !';
         }
         
@@ -61,22 +59,18 @@ export async function POST(request: NextRequest) {
           { status: 409 }
         );
       }
-    } catch (findError) {
-      const error = findError as Error;
-      console.log('Find query handled:', error.message);
-      // Continue to create - duplicate will be caught by unique constraint
+    } catch (fileError) {
+      console.log('File storage duplicate check failed, continuing with creation');
     }
     
-    // Create new entry with duplicate handling
+        // Use file storage directly for instant response (no MongoDB timeout)
     try {
-      const newEntry = await prisma.whitelistEntry.create({
-        data: {
-          email,
-          phone
-        }
+      const newEntry = await fileStorage.create({ 
+        email: email || undefined, 
+        phone: phone || undefined 
       });
       
-      console.log('✅ MongoDB Atlas entry created:', newEntry.id);
+      console.log('✅ File storage entry created:', newEntry.id);
       console.log('📧 Email:', newEntry.email || 'None');
       console.log('📱 Phone:', newEntry.phone || 'None');
       
@@ -95,23 +89,25 @@ export async function POST(request: NextRequest) {
         { 
           message: 'Merci ! Vous serez averti dès que la collection sera disponible.',
           id: newEntry.id,
-          storage: 'MongoDB Atlas'
+          storage: 'File Storage (Fast)'
         },
         { status: 200 }
       );
       
-    } catch (createError) {
-      const error = createError as Error & { code?: string };
-      // Handle duplicate key error specifically
-      if (error.code === 'P2002' || error.message.includes('duplicate') || error.message.includes('E11000')) {
+    } catch (fileError) {
+      const fileErr = fileError as Error;
+      console.error('File storage failed:', fileErr.message);
+      
+      // Handle file storage duplicate error specifically
+      if (fileErr.message === 'Entry already exists') {
         return NextResponse.json(
           { error: 'Cette adresse est déjà inscrite à la liste d\'attente !' },
           { status: 409 }
         );
       }
       
-      console.error('MongoDB create error:', error);
-      throw error;
+      // For other file storage errors
+      throw fileError;
     }
     
   } catch (error) {
@@ -133,35 +129,35 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    const count = await prisma.whitelistEntry.count();
-    const emailCount = await prisma.whitelistEntry.count({
-      where: { email: { not: null } }
-    });
-    const phoneCount = await prisma.whitelistEntry.count({
-      where: { phone: { not: null } }
-    });
+    // Use file storage directly for instant response
+    console.log('🚀 Using fast file storage for instant stats');
+    
+    const total = await fileStorage.count();
+    const emailCount = await fileStorage.count({ email: { not: null } });
+    const phoneCount = await fileStorage.count({ phone: { not: null } });
     
     return NextResponse.json(
       { 
-        message: 'API de la liste d\'attente (MongoDB Atlas)',
+        message: 'API de la liste d\'attente (File Storage)',
         stats: {
-          total: count,
+          total,
           email: emailCount,
           phone: phoneCount
         },
-        storage: 'MongoDB Atlas'
+        storage: 'File Storage (Fast)',
+        note: 'Using instant file storage for better performance'
       },
       { status: 200 }
     );
-  } catch (error) {
-    console.error('Error fetching whitelist stats:', error);
+  } catch (fileError) {
+    console.error('File storage failed:', fileError);
     return NextResponse.json(
       { 
-        message: 'API de la liste d\'attente (MongoDB Atlas)',
-        error: 'Could not fetch stats',
-        storage: 'MongoDB Atlas'
+        message: 'API de la liste d\'attente',
+        error: 'File storage unavailable',
+        storage: 'None'
       },
-      { status: 200 }
+      { status: 500 }
     );
   }
 } 

@@ -187,7 +187,7 @@ export default function Home() {
     }
 
     try {
-      const response = await fetch('/api/whitelist-test', {
+      const response = await fetch('/api/whitelist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -234,33 +234,25 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-black overflow-hidden">
-      {/* Enhanced Background Video Layer - Both Mobile and Desktop */}
+      {/* Clean Modern Background - No Video for Better Performance */}
       <div className="absolute inset-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: 'center center', zIndex: 1 }}
-          onError={(e) => {
-            console.error('Video error:', e);
-            console.log('Video failed to load, using fallback background');
-          }}
-          onLoadStart={() => console.log('📹 Video loading started')}
-          onCanPlay={() => console.log('✅ Video can play')}
-          onLoadedData={() => console.log('📹 Video data loaded')}
-          onPlay={() => console.log('▶️ Video playing')}
-        >
-          <source src="/img-1582-compressed.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        {/* Primary gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800" />
         
-        {/* Enhanced dark overlay for better content visibility */}
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/70" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
+        {/* Secondary overlay for depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/80" />
+        
+        {/* Subtle radial glow effect */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+        </div>
+        
+        {/* Animated floating particles effect */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-white/20 rounded-full animate-pulse"></div>
+          <div className="absolute top-3/4 right-1/3 w-1 h-1 bg-white/30 rounded-full animate-ping"></div>
+          <div className="absolute bottom-1/4 left-2/3 w-1.5 h-1.5 bg-white/15 rounded-full animate-pulse delay-1000"></div>
+        </div>
       </div>
 
       {/* Main Content */}

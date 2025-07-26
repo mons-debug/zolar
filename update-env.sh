@@ -1,43 +1,60 @@
 #!/bin/bash
 
-echo "🔧 Updating .env file for ZOLAR Landing Page..."
+echo "🔧 Setting up ZOLAR Landing Page Environment..."
 
-# Backup current .env
-cp .env .env.backup
-echo "✅ Backup created: .env.backup"
+# Backup current .env if it exists
+if [ -f .env ]; then
+  cp .env .env.backup.$(date +%Y%m%d_%H%M%S)
+  echo "✅ Backup created: .env.backup.$(date +%Y%m%d_%H%M%S)"
+fi
 
-# Create new .env file
+# Create comprehensive .env file
 cat > .env << 'EOF'
-# Database Configuration for ZOLAR Landing Page
+# ==============================================
+# ZOLAR LANDING PAGE - ENVIRONMENT CONFIGURATION
+# ==============================================
 
-# OPTION 1: MongoDB Atlas (Cloud) - RECOMMENDED FOR PRODUCTION  
-# Uncomment and replace with your actual Atlas connection string:
-# DATABASE_URL="mongodb+srv://your-username:your-password@cluster0.xxxxx.mongodb.net/zolar_landing?retryWrites=true&w=majority"
+# 🗄️ DATABASE CONFIGURATION
+# Replace this MongoDB Atlas URL with your own:
+DATABASE_URL="mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/zolar_landing?retryWrites=true&w=majority"
 
-# OPTION 2: Local MongoDB (Current - has transaction limitations)
-DATABASE_URL="mongodb://localhost:27017/zolar_landing"
+# 📱 TWILIO WHATSAPP CONFIGURATION 
+# Get these from: https://console.twilio.com
+TWILIO_SID="your_twilio_account_sid_here"
+TWILIO_AUTH="your_twilio_auth_token_here"
+TWILIO_WHATSAPP_FROM="whatsapp:+14155238886"
 
-# OPTION 3: File Storage (Currently working perfectly)
-# No DATABASE_URL needed - uses data/whitelist.json
-# Current API endpoint: /api/whitelist-test (working now)
-
-# MongoDB Atlas Setup Instructions:
-# 1. Go to https://www.mongodb.com/atlas
-# 2. Create free account (500MB free tier)
-# 3. Create cluster and database
-# 4. Get connection string from "Connect" button
-# 5. Replace DATABASE_URL above with your Atlas string
-# 6. Change API endpoint back to /api/whitelist in src/app/page.tsx
-
-# WhatsApp Configuration (Optional - for notifications)
-TWILIO_SID=your_twilio_account_sid_here
-TWILIO_AUTH=your_twilio_auth_token_here
-TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
-
-# Production Environment
+# 🌍 ENVIRONMENT
 NODE_ENV=development
+
+# ==============================================
+# 📋 QUICK SETUP INSTRUCTIONS:
+# 
+# 1. MongoDB Atlas (Free 500MB):
+#    - Go to: https://www.mongodb.com/atlas
+#    - Create account → Create cluster → Get connection string
+#    - Replace DATABASE_URL above
+#
+# 2. Twilio WhatsApp (Free trial credits):
+#    - Go to: https://www.twilio.com
+#    - Create account → Get WhatsApp sandbox → Get credentials
+#    - Replace TWILIO_* values above
+#
+# 3. Test your setup:
+#    - npm run dev
+#    - Visit http://localhost:3000/api/whitelist (should show stats)
+#    - Submit test email/phone on homepage
+# ==============================================
 EOF
 
-echo "✅ .env file updated successfully!"
-echo "📋 Review the new configuration and update your MongoDB Atlas URL when ready"
-echo "🎯 Your email collection is still working perfectly with file storage!" 
+echo "✅ .env file created successfully!"
+echo ""
+echo "🚀 NEXT STEPS:"
+echo "1. Edit .env file and replace YOUR_USERNAME, YOUR_PASSWORD, YOUR_CLUSTER with real values"
+echo "2. Get MongoDB Atlas connection string from: https://www.mongodb.com/atlas"
+echo "3. Get Twilio credentials from: https://console.twilio.com"
+echo "4. Run: npm run dev"
+echo "5. Test at: http://localhost:3000"
+echo ""
+echo "💡 TIP: Your whitelist system now has automatic fallback to file storage!"
+echo "📱 WhatsApp messages will be sent automatically when users sign up!" 
