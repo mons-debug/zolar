@@ -95,7 +95,7 @@ async function createBrevoContact(contactData: BrevoContactData): Promise<BrevoR
       if (responseText) {
         errorData = JSON.parse(responseText);
       }
-    } catch (e) {
+    } catch (_e) {
       console.log('Failed to parse error response as JSON');
     }
     
@@ -116,7 +116,7 @@ async function createBrevoContact(contactData: BrevoContactData): Promise<BrevoR
 
   try {
     return JSON.parse(responseText) as BrevoResponse;
-  } catch (e) {
+  } catch (_e) {
     console.error('Failed to parse success response:', responseText);
     throw new Error('Invalid JSON response from Brevo API');
   }
@@ -149,7 +149,7 @@ async function updateBrevoContact(email: string, updateData: BrevoUpdateData): P
       if (responseText) {
         errorData = JSON.parse(responseText);
       }
-    } catch (e) {
+    } catch (_e) {
       console.log('Failed to parse update error response as JSON');
     }
     throw new Error(`Brevo Update Error: ${response.status} - ${errorData?.message || response.statusText}`);
@@ -157,7 +157,7 @@ async function updateBrevoContact(email: string, updateData: BrevoUpdateData): P
 
   try {
     return responseText ? JSON.parse(responseText) : { id: 'updated' };
-  } catch (e) {
+  } catch (_e) {
     return { id: 'updated' };
   }
 }
@@ -187,7 +187,7 @@ async function getBrevoList(listId: number): Promise<BrevoListResponse> {
       if (responseText) {
         errorData = JSON.parse(responseText);
       }
-    } catch (e) {
+    } catch (_e) {
       console.log('Failed to parse list error response as JSON');
     }
     throw new Error(`Brevo List Error: ${response.status} - ${errorData?.message || response.statusText}`);
@@ -195,7 +195,7 @@ async function getBrevoList(listId: number): Promise<BrevoListResponse> {
 
   try {
     return JSON.parse(responseText) as BrevoListResponse;
-  } catch (e) {
+  } catch (_e) {
     console.error('Failed to parse list response:', responseText);
     throw new Error('Invalid JSON response from Brevo List API');
   }
