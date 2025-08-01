@@ -243,38 +243,48 @@ export default function Home() {
         {/* Original dark overlay for depth */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/80" />
         
-        {/* Green smoke effects - First layer */}
+        {/* Enhanced Green smoke effects - First layer */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/3 left-1/4 w-80 h-40 bg-emerald-500/8 rounded-full blur-3xl rotate-12"></div>
-          <div className="absolute bottom-1/4 right-1/5 w-64 h-32 bg-green-400/6 rounded-full blur-2xl -rotate-12"></div>
-          <div className="absolute top-2/3 left-2/3 w-48 h-24 bg-teal-400/5 rounded-full blur-xl rotate-45"></div>
+          <div className="absolute top-1/3 left-1/4 w-80 h-40 bg-emerald-500/12 rounded-full blur-3xl rotate-12"></div>
+          <div className="absolute bottom-1/4 right-1/5 w-64 h-32 bg-green-400/10 rounded-full blur-2xl -rotate-12"></div>
+          <div className="absolute top-2/3 left-2/3 w-48 h-24 bg-teal-400/8 rounded-full blur-xl rotate-45"></div>
         </div>
         
-        {/* Green smoke effects - Second layer */}
+        {/* Enhanced Green smoke effects - Second layer */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 right-1/3 w-72 h-36 bg-lime-500/7 rounded-full blur-3xl -rotate-6"></div>
-          <div className="absolute bottom-1/3 left-1/6 w-56 h-28 bg-emerald-400/6 rounded-full blur-2xl rotate-24"></div>
-          <div className="absolute top-3/4 right-1/6 w-40 h-20 bg-green-500/4 rounded-full blur-xl -rotate-18"></div>
+          <div className="absolute top-1/4 right-1/3 w-72 h-36 bg-lime-500/11 rounded-full blur-3xl -rotate-6"></div>
+          <div className="absolute bottom-1/3 left-1/6 w-56 h-28 bg-emerald-400/9 rounded-full blur-2xl rotate-24"></div>
+          <div className="absolute top-3/4 right-1/6 w-40 h-20 bg-green-500/7 rounded-full blur-xl -rotate-18"></div>
         </div>
         
-        {/* Central green glow - Multiple green shades */}
+        {/* Additional green smoke wisps for more visibility */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-400/6 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-green-400/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/6 right-1/4 w-60 h-30 bg-emerald-300/6 rounded-full blur-2xl rotate-30"></div>
+          <div className="absolute bottom-1/6 left-1/3 w-52 h-26 bg-green-300/7 rounded-full blur-xl -rotate-15"></div>
+          <div className="absolute top-5/6 right-2/3 w-44 h-22 bg-lime-400/5 rounded-full blur-lg rotate-60"></div>
         </div>
         
-        {/* Animated floating green particles */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-emerald-400/25 rounded-full animate-pulse"></div>
-          <div className="absolute top-3/4 right-1/3 w-1 h-1 bg-lime-300/30 rounded-full animate-ping"></div>
-          <div className="absolute bottom-1/4 left-2/3 w-1.5 h-1.5 bg-teal-400/20 rounded-full animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-green-300/25 rounded-full animate-ping delay-500"></div>
-          <div className="absolute bottom-1/3 left-1/5 w-2 h-2 bg-emerald-400/15 rounded-full animate-pulse delay-1500"></div>
+        {/* Enhanced Central green glow */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-400/8 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-green-400/7 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-lime-400/6 rounded-full blur-2xl"></div>
         </div>
         
-        {/* Subtle green glow for balance */}
+        {/* Enhanced floating green particles */}
+        <div className="absolute inset-0 opacity-40">
+          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-emerald-400/35 rounded-full animate-pulse"></div>
+          <div className="absolute top-3/4 right-1/3 w-1 h-1 bg-lime-300/40 rounded-full animate-ping"></div>
+          <div className="absolute bottom-1/4 left-2/3 w-1.5 h-1.5 bg-teal-400/30 rounded-full animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-green-300/35 rounded-full animate-ping delay-500"></div>
+          <div className="absolute bottom-1/3 left-1/5 w-2 h-2 bg-emerald-400/25 rounded-full animate-pulse delay-1500"></div>
+          <div className="absolute top-1/6 left-3/4 w-1 h-1 bg-lime-400/30 rounded-full animate-ping delay-2000"></div>
+          <div className="absolute bottom-2/3 right-1/5 w-1.5 h-1.5 bg-green-400/25 rounded-full animate-pulse delay-2500"></div>
+        </div>
+        
+        {/* Enhanced green ambient glow */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-green-200/3 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-green-200/5 rounded-full blur-3xl"></div>
         </div>
       </div>
 
