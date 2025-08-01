@@ -64,65 +64,153 @@ function formatPhoneNumber(phone: string): string {
 
 // Create or update contact in Brevo
 async function createBrevoContact(contactData: BrevoContactData): Promise<BrevoResponse> {
+  const apiKey = process.env.BREVO_API_KEY;
+  
+  if (!apiKey || apiKey === 'your_brevo_api_key_here') {
+    throw new Error('BREVO_API_KEY is not configured or is still using placeholder value');
+  }
+
+  console.log('🔑 Using API key:', apiKey.substring(0, 8) + '...');
+  console.log('📤 Sending contact data:', JSON.stringify(contactData, null, 2));
+
   const response = await fetch('https://api.brevo.com/v3/contacts', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'api-key': process.env.BREVO_API_KEY || ''
+      'api-key': apiKey
     },
     body: JSON.stringify(contactData)
   });
 
+  console.log('📥 Brevo response status:', response.status);
+  console.log('📥 Brevo response headers:', Object.fromEntries(response.headers.entries()));
+
+  const responseText = await response.text();
+  console.log('📥 Brevo response body:', responseText);
+
   if (!response.ok) {
-    const errorData = await response.json().catch(() => null) as BrevoError | null;
-    throw new Error(`Brevo API Error: ${response.status} - ${errorData?.message || response.statusText}`);
+    let errorData: BrevoError | null = null;
+    try {
+      if (responseText) {
+        errorData = JSON.parse(responseText);
+      }
+    } catch (e) {
+      console.log('Failed to parse error response as JSON');
+    }
+    
+    // Handle specific error cases
+    if (response.status === 401) {
+      throw new Error('Brevo API Key is invalid or missing permissions. Please check your API key.');
+    }
+    if (response.status === 400 && errorData?.message?.includes('duplicate')) {
+      throw new Error('DUPLICATE_CONTACT');
+    }
+    
+    throw new Error(`Brevo API Error: ${response.status} - ${errorData?.message || response.statusText || 'Unknown error'}`);
   }
 
-  return await response.json() as BrevoResponse;
+  if (!responseText) {
+    throw new Error('Brevo API returned empty response');
+  }
+
+  try {
+    return JSON.parse(responseText) as BrevoResponse;
+  } catch (e) {
+    console.error('Failed to parse success response:', responseText);
+    throw new Error('Invalid JSON response from Brevo API');
+  }
 }
 
 // Update existing contact in Brevo
 async function updateBrevoContact(email: string, updateData: BrevoUpdateData): Promise<BrevoResponse> {
+  const apiKey = process.env.BREVO_API_KEY;
+  
+  if (!apiKey || apiKey === 'your_brevo_api_key_here') {
+    throw new Error('BREVO_API_KEY is not configured');
+  }
+
   const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'api-key': process.env.BREVO_API_KEY || ''
+      'api-key': apiKey
     },
     body: JSON.stringify(updateData)
   });
 
+  const responseText = await response.text();
+  console.log('📥 Brevo UPDATE response:', response.status, responseText);
+
   if (!response.ok) {
-    const errorData = await response.json().catch(() => null) as BrevoError | null;
+    let errorData: BrevoError | null = null;
+    try {
+      if (responseText) {
+        errorData = JSON.parse(responseText);
+      }
+    } catch (e) {
+      console.log('Failed to parse update error response as JSON');
+    }
     throw new Error(`Brevo Update Error: ${response.status} - ${errorData?.message || response.statusText}`);
   }
 
-  return await response.json() as BrevoResponse;
+  try {
+    return responseText ? JSON.parse(responseText) : { id: 'updated' };
+  } catch (e) {
+    return { id: 'updated' };
+  }
 }
 
 // Get list information from Brevo
 async function getBrevoList(listId: number): Promise<BrevoListResponse> {
+  const apiKey = process.env.BREVO_API_KEY;
+  
+  if (!apiKey || apiKey === 'your_brevo_api_key_here') {
+    throw new Error('BREVO_API_KEY is not configured');
+  }
+
   const response = await fetch(`https://api.brevo.com/v3/contacts/lists/${listId}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'api-key': process.env.BREVO_API_KEY || ''
+      'api-key': apiKey
     }
   });
 
+  const responseText = await response.text();
+  console.log('📥 Brevo LIST response:', response.status, responseText);
+
   if (!response.ok) {
-    const errorData = await response.json().catch(() => null) as BrevoError | null;
+    let errorData: BrevoError | null = null;
+    try {
+      if (responseText) {
+        errorData = JSON.parse(responseText);
+      }
+    } catch (e) {
+      console.log('Failed to parse list error response as JSON');
+    }
     throw new Error(`Brevo List Error: ${response.status} - ${errorData?.message || response.statusText}`);
   }
 
-  return await response.json() as BrevoListResponse;
+  try {
+    return JSON.parse(responseText) as BrevoListResponse;
+  } catch (e) {
+    console.error('Failed to parse list response:', responseText);
+    throw new Error('Invalid JSON response from Brevo List API');
+  }
 }
 
 // Send auto-reply email using Brevo's transactional email API
 async function sendAutoReplyEmail(email: string): Promise<void> {
   try {
+    const apiKey = process.env.BREVO_API_KEY;
+    
+    if (!apiKey || apiKey === 'your_brevo_api_key_here') {
+      console.log('⚠️  Skipping email - API key not configured');
+      return;
+    }
+
     const emailData = {
       sender: { email: 'no-reply@zolar.com', name: 'Équipe Zolar' },
       to: [{ email: email }],
@@ -172,17 +260,19 @@ async function sendAutoReplyEmail(email: string): Promise<void> {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'api-key': process.env.BREVO_API_KEY || ''
+        'api-key': apiKey
       },
       body: JSON.stringify(emailData)
     });
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.log('📧 Email API error:', response.status, errorText);
       throw new Error(`Email API Error: ${response.status}`);
     }
 
     console.log('✅ Auto-reply email sent successfully');
-    await response.json();
+    await response.text(); // Consume response
   } catch (error) {
     console.error('❌ Failed to send auto-reply email:', error);
     // Don't fail the main request if email fails
@@ -194,10 +284,15 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     
     // Validate environment variables
-    if (!process.env.BREVO_API_KEY) {
-      console.error('❌ BREVO_API_KEY is not configured');
+    const apiKey = process.env.BREVO_API_KEY;
+    console.log('🔍 Environment check:');
+    console.log('   BREVO_API_KEY:', apiKey ? `${apiKey.substring(0, 8)}...` : 'NOT SET');
+    console.log('   BREVO_LIST_ID:', process.env.BREVO_LIST_ID || 'NOT SET');
+    
+    if (!apiKey || apiKey === 'your_brevo_api_key_here') {
+      console.error('❌ BREVO_API_KEY is not configured properly');
       return NextResponse.json(
-        { error: 'Configuration du service email manquante. Veuillez contacter l\'administrateur.' },
+        { error: 'Configuration du service email manquante. Veuillez vérifier votre clé API Brevo.' },
         { status: 500 }
       );
     }
@@ -265,11 +360,11 @@ export async function POST(request: NextRequest) {
 
     } catch (brevoError: unknown) {
       const error = brevoError as Error;
-      console.error('❌ Brevo API Error:', error);
+      console.error('❌ Brevo API Error:', error.message);
       
       // Handle duplicate contact (this is usually OK)
-      if (error.message?.includes('400') || error.message?.includes('duplicate')) {
-        console.log('ℹ️  Contact already exists in Brevo, updating...');
+      if (error.message === 'DUPLICATE_CONTACT' || error.message?.includes('duplicate')) {
+        console.log('ℹ️  Contact already exists in Brevo, trying to update...');
         
         // Try to update the existing contact
         try {
@@ -278,18 +373,26 @@ export async function POST(request: NextRequest) {
               attributes: contactData.attributes,
               listIds: contactData.listIds
             });
+            
+            return NextResponse.json(
+              { 
+                message: 'Vous êtes déjà inscrit ! Vos informations ont été mises à jour.',
+                status: 'updated'
+              },
+              { status: 200 }
+            );
           }
-          
-          return NextResponse.json(
-            { 
-              message: 'Vous êtes déjà inscrit ! Vos informations ont été mises à jour.',
-              status: 'updated'
-            },
-            { status: 200 }
-          );
         } catch (updateError) {
           console.error('❌ Failed to update existing contact:', updateError);
         }
+      }
+
+      // Handle API key errors specifically
+      if (error.message?.includes('invalid') || error.message?.includes('401')) {
+        return NextResponse.json(
+          { error: 'Erreur de configuration. Veuillez vérifier votre clé API Brevo.' },
+          { status: 500 }
+        );
       }
 
       // For other Brevo errors, return user-friendly message
@@ -319,11 +422,12 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   try {
     // Validate environment variables
-    if (!process.env.BREVO_API_KEY) {
+    const apiKey = process.env.BREVO_API_KEY;
+    if (!apiKey || apiKey === 'your_brevo_api_key_here') {
       return NextResponse.json(
         { 
           message: 'API de la liste d\'attente Zolar (Brevo)',
-          error: 'BREVO_API_KEY not configured',
+          error: 'BREVO_API_KEY not configured properly',
           status: 'error'
         },
         { status: 500 }
