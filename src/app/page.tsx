@@ -7,9 +7,9 @@ import Image from 'next/image';
 
 // Memoized Loading Screen Component
 const LoadingScreen = memo(() => (
-  <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-    {/* Clean dark background */}
-    <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black" />
+  <div className="fixed inset-0 bg-emerald-950 flex items-center justify-center z-50">
+    {/* Clean green background */}
+    <div className="absolute inset-0 bg-gradient-to-br from-emerald-900 to-green-950" />
 
     {/* Loading Logo Animation */}
     <motion.div
@@ -233,26 +233,41 @@ export default function Home() {
   }
 
   return (
-    <div className="relative min-h-screen bg-black overflow-hidden">
-      {/* Clean Modern Background - No Video for Better Performance */}
+    <div className="relative min-h-screen bg-emerald-950 overflow-hidden">
+      {/* Modern Green Smoky Gradient Background */}
       <div className="absolute inset-0">
-        {/* Primary gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800" />
+        {/* Primary green gradient base */}
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-900 via-green-900 to-teal-900" />
         
-        {/* Secondary overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/80" />
+        {/* Smoky overlay layers for depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/80 via-transparent to-green-950/90" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-teal-900/60 via-transparent to-emerald-800/40" />
         
-        {/* Subtle radial glow effect */}
+        {/* Central smoky glow effects */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-400/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-green-300/8 rounded-full blur-2xl"></div>
+          <div className="absolute bottom-1/3 right-1/3 translate-x-1/2 translate-y-1/2 w-72 h-72 bg-teal-400/12 rounded-full blur-3xl"></div>
         </div>
         
-        {/* Animated floating particles effect */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-white/20 rounded-full animate-pulse"></div>
-          <div className="absolute top-3/4 right-1/3 w-1 h-1 bg-white/30 rounded-full animate-ping"></div>
-          <div className="absolute bottom-1/4 left-2/3 w-1.5 h-1.5 bg-white/15 rounded-full animate-pulse delay-1000"></div>
+        {/* Subtle smoke swirls */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/6 w-64 h-32 bg-emerald-300/5 rounded-full blur-2xl rotate-12"></div>
+          <div className="absolute bottom-1/4 right-1/6 w-48 h-24 bg-green-400/6 rounded-full blur-xl -rotate-12"></div>
+          <div className="absolute top-2/3 left-1/2 w-56 h-28 bg-teal-300/4 rounded-full blur-2xl rotate-45"></div>
         </div>
+        
+        {/* Animated floating green particles */}
+        <div className="absolute inset-0 opacity-40">
+          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-emerald-400/30 rounded-full animate-pulse"></div>
+          <div className="absolute top-3/4 right-1/3 w-1 h-1 bg-green-300/40 rounded-full animate-ping"></div>
+          <div className="absolute bottom-1/4 left-2/3 w-1.5 h-1.5 bg-teal-400/25 rounded-full animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-emerald-300/35 rounded-full animate-ping delay-500"></div>
+          <div className="absolute bottom-1/3 left-1/5 w-2 h-2 bg-green-400/20 rounded-full animate-pulse delay-1500"></div>
+        </div>
+        
+        {/* Final smoky vignette */}
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/30 via-transparent to-green-950/30" />
       </div>
 
       {/* Main Content */}
