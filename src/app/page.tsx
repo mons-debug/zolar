@@ -7,10 +7,7 @@ import Image from 'next/image';
 
 // Memoized Loading Screen Component
 const LoadingScreen = memo(() => (
-  <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-    {/* Clean dark background with subtle green accent */}
-    <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black" />
-    <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/20 to-transparent" />
+  <div className="fixed inset-0 flex items-center justify-center z-50 bg-gradient-to-br from-green-800 via-black to-emerald-700 bg-200 animate-gradient-slow">
 
     {/* Loading Logo Animation */}
     <motion.div
@@ -234,15 +231,7 @@ export default function Home() {
   }
 
   return (
-    <div className="relative min-h-screen bg-black overflow-hidden">
-      {/* Purple Gradient Background - Like Screenshot */}
-      <div className="absolute inset-0">
-        {/* Main gradient - exact purple like screenshot */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-purple-950 to-violet-900" />
-        
-        {/* Side gradient accent - purple/magenta */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-purple-800/30" />
-      </div>
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-green-800 via-black to-emerald-700 bg-200 animate-gradient-slow">
 
       {/* Main Content */}
       <motion.div
