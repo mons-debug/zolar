@@ -235,13 +235,13 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-black overflow-hidden">
-      {/* Simple Green Gradient Background */}
+      {/* Purple Gradient Background - Like Screenshot */}
       <div className="absolute inset-0">
-        {/* Main gradient - like screenshot but green */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-emerald-950 to-green-900" />
+        {/* Main gradient - exact purple like screenshot */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-purple-950 to-violet-900" />
         
-        {/* Side gradient accent */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-emerald-800/30" />
+        {/* Side gradient accent - purple/magenta */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-purple-800/30" />
       </div>
 
       {/* Main Content */}
