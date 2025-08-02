@@ -364,7 +364,7 @@ export default function Home() {
                 className="text-2xl md:text-3xl font-bold text-white text-center mb-4 leading-tight"
                 style={{ textShadow: '0 2px 8px rgba(0,0,0,0.7)' }}
               >
-                Collection Exclusive
+                ZOLAR exclusive BORDERLINE
               </motion.h1>
 
               {/* Enhanced Subtitle */}
@@ -375,7 +375,7 @@ export default function Home() {
                 className="text-white/95 text-center text-sm mb-8 leading-relaxed"
                 style={{ textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}
               >
-                Choisis comment être averti du lancement
+                Choose how to be notified of the launch
               </motion.p>
 
               {/* Enhanced Toggle Switch with Modern Glass */}
