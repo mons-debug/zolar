@@ -238,14 +238,14 @@ export default function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-50 flex flex-col items-center justify-center min-h-screen px-4"
+        className="relative z-50 flex flex-col items-center justify-center min-h-screen px-4 py-4"
       >
         {/* Logo - Enhanced with cleaner shadow */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex justify-center mb-6 md:mb-12 pt-4 md:pt-8"
+          className="flex justify-center mb-4 md:mb-8"
         >
           <div className="relative">
             <div className="absolute inset-0 bg-white/20 blur-2xl rounded-full scale-110" />
@@ -254,7 +254,7 @@ export default function Home() {
               alt="ZOLAR"
               width={200}
               height={80}
-              className="h-20 md:h-24 w-auto relative z-10 drop-shadow-lg filter brightness-110"
+              className="h-24 md:h-28 w-auto relative z-10 drop-shadow-lg filter brightness-110"
               priority
               quality={95}
               sizes="200px"
@@ -267,9 +267,9 @@ export default function Home() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex justify-center mb-4 md:mb-12"
+          className="flex justify-center mb-3 md:mb-6"
         >
-          <div className="relative backdrop-blur-md bg-white/15 border border-white/25 rounded-2xl p-3 md:p-6 shadow-2xl overflow-hidden">
+          <div className="relative backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-3 md:p-6 shadow-2xl overflow-hidden">
             {/* Subtle glass gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 rounded-2xl pointer-events-none" />
             <div className="absolute inset-[1px] bg-gradient-to-b from-white/15 to-transparent rounded-2xl pointer-events-none" />
@@ -304,7 +304,7 @@ export default function Home() {
                     }}
                     className="flex flex-col items-center"
                   >
-                    <div className="relative backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl p-2 md:p-3 min-w-[50px] md:min-w-[60px] shadow-lg">
+                    <div className="relative backdrop-blur-sm bg-white/15 border border-white/25 rounded-xl p-2 md:p-3 min-w-[50px] md:min-w-[60px] shadow-lg">
                       <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-white/5 rounded-xl pointer-events-none" />
                       <AnimatePresence mode="wait">
                         <motion.span
@@ -343,7 +343,7 @@ export default function Home() {
           className="w-full max-w-md"
         >
           <motion.div
-            className="relative backdrop-blur-xl bg-white/15 border border-white/30 rounded-3xl shadow-2xl p-4 md:p-8 overflow-hidden"
+            className="relative backdrop-blur-xl bg-white/10 border border-white/25 rounded-3xl shadow-2xl p-4 md:p-8 overflow-hidden"
             whileHover={{ 
               scale: 1.005,
               transition: { duration: 0.2 }
@@ -385,7 +385,7 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: 0.6 }}
                 className="mb-3 md:mb-6"
               >
-                <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-1 border border-white/30 shadow-inner">
+                <div className="relative bg-white/8 backdrop-blur-lg rounded-2xl p-1 border border-white/25 shadow-inner">
                   <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent rounded-2xl pointer-events-none" />
                   <div className="flex relative">
                     <motion.div
@@ -454,7 +454,7 @@ export default function Home() {
                         value={email}
                         onChange={handleEmailChange}
                         placeholder="your@email.com"
-                        className="w-full px-3 md:px-4 py-3 md:py-4 bg-white/15 backdrop-blur-lg border border-white/30 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-xs md:text-sm shadow-inner"
+                        className="w-full px-3 md:px-4 py-3 md:py-4 bg-white/10 backdrop-blur-lg border border-white/25 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-base shadow-inner"
                         style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
                         required
                         autoComplete="email"
@@ -474,7 +474,7 @@ export default function Home() {
                         value={phone}
                         onChange={handlePhoneChange}
                         placeholder="+212 6 12 34 56 78"
-                        className="w-full px-3 md:px-4 py-3 md:py-4 bg-white/15 backdrop-blur-lg border border-white/30 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-xs md:text-sm shadow-inner"
+                        className="w-full px-3 md:px-4 py-3 md:py-4 bg-white/10 backdrop-blur-lg border border-white/25 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-base shadow-inner"
                         style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
                         required
                         autoComplete="tel"
