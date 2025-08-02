@@ -171,14 +171,14 @@ export default function Home() {
     const phoneValue = notificationMethod === 'whatsapp' ? phone.trim() : '';
 
     if (notificationMethod === 'email' && !emailValue) {
-      setMessage('Veuillez fournir une adresse email');
+      setMessage('Please provide an email address');
       setMessageType('error');
       setIsSubmitting(false);
       return;
     }
 
     if (notificationMethod === 'whatsapp' && !phoneValue) {
-      setMessage('Veuillez fournir un numéro WhatsApp');
+      setMessage('Please provide a WhatsApp number');
       setMessageType('error');
       setIsSubmitting(false);
       return;
@@ -206,7 +206,7 @@ export default function Home() {
       }
     } catch (error) {
       console.error('Form submission error:', error);
-      setMessage('Une erreur est survenue. Veuillez réessayer.');
+      setMessage('An error occurred. Please try again.');
       setMessageType('error');
     } finally {
       setIsSubmitting(false);
@@ -245,7 +245,7 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex justify-center mb-12 pt-8"
+          className="flex justify-center mb-6 md:mb-12 pt-4 md:pt-8"
         >
           <div className="relative">
             <div className="absolute inset-0 bg-white/20 blur-2xl rounded-full scale-110" />
@@ -254,7 +254,7 @@ export default function Home() {
               alt="ZOLAR"
               width={200}
               height={80}
-              className="h-20 w-auto relative z-10 drop-shadow-lg filter brightness-110"
+              className="h-20 md:h-24 w-auto relative z-10 drop-shadow-lg filter brightness-110"
               priority
               quality={95}
               sizes="200px"
@@ -267,9 +267,9 @@ export default function Home() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex justify-center mb-12"
+          className="flex justify-center mb-4 md:mb-12"
         >
-          <div className="relative backdrop-blur-md bg-white/15 border border-white/25 rounded-2xl p-6 shadow-2xl overflow-hidden">
+          <div className="relative backdrop-blur-md bg-white/15 border border-white/25 rounded-2xl p-3 md:p-6 shadow-2xl overflow-hidden">
             {/* Subtle glass gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 rounded-2xl pointer-events-none" />
             <div className="absolute inset-[1px] bg-gradient-to-b from-white/15 to-transparent rounded-2xl pointer-events-none" />
@@ -279,16 +279,16 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.4 }}
-                className="text-white text-center text-sm mb-4 font-medium"
+                className="text-white text-center text-xs md:text-sm mb-2 md:mb-4 font-medium"
                 style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}
               >
-                Lancement dans
+                Launch in
               </motion.p>
               
-              <div className="flex items-center justify-center gap-4">
+              <div className="flex items-center justify-center gap-2 md:gap-4">
                 {[
-                  { value: timeLeft.days, label: 'Jours' },
-                  { value: timeLeft.hours, label: 'Heures' },
+                  { value: timeLeft.days, label: 'Days' },
+                  { value: timeLeft.hours, label: 'Hours' },
                   { value: timeLeft.minutes, label: 'Min' },
                   { value: timeLeft.seconds, label: 'Sec' }
                 ].map((item, index) => (
@@ -304,7 +304,7 @@ export default function Home() {
                     }}
                     className="flex flex-col items-center"
                   >
-                    <div className="relative backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl p-3 min-w-[60px] shadow-lg">
+                    <div className="relative backdrop-blur-sm bg-white/20 border border-white/30 rounded-xl p-2 md:p-3 min-w-[50px] md:min-w-[60px] shadow-lg">
                       <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-white/5 rounded-xl pointer-events-none" />
                       <AnimatePresence mode="wait">
                         <motion.span
@@ -318,14 +318,14 @@ export default function Home() {
                             damping: 25,
                             duration: 0.3
                           }}
-                          className="relative z-10 text-white text-xl font-bold block text-center tabular-nums"
+                          className="relative z-10 text-white text-base md:text-xl font-bold block text-center tabular-nums"
                           style={{ textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}
                         >
                           {item.value.toString().padStart(2, '0')}
                         </motion.span>
                       </AnimatePresence>
                     </div>
-                    <span className="text-white/90 text-xs mt-2 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
+                    <span className="text-white/90 text-[10px] md:text-xs mt-1 md:mt-2 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
                       {item.label}
                     </span>
                   </motion.div>
@@ -343,7 +343,7 @@ export default function Home() {
           className="w-full max-w-md"
         >
           <motion.div
-            className="relative backdrop-blur-xl bg-white/15 border border-white/30 rounded-3xl shadow-2xl p-8 overflow-hidden"
+            className="relative backdrop-blur-xl bg-white/15 border border-white/30 rounded-3xl shadow-2xl p-4 md:p-8 overflow-hidden"
             whileHover={{ 
               scale: 1.005,
               transition: { duration: 0.2 }
@@ -361,7 +361,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="text-2xl md:text-3xl font-bold text-white text-center mb-4 leading-tight"
+                className="text-lg md:text-2xl lg:text-3xl font-bold text-white text-center mb-2 md:mb-4 leading-tight"
                 style={{ textShadow: '0 2px 8px rgba(0,0,0,0.7)' }}
               >
                 ZOLAR exclusive BORDERLINE
@@ -372,7 +372,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className="text-white/95 text-center text-sm mb-8 leading-relaxed"
+                className="text-white/95 text-center text-xs md:text-sm mb-4 md:mb-8 leading-relaxed"
                 style={{ textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}
               >
                 Choose how to be notified of the launch
@@ -383,7 +383,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                className="mb-6"
+                className="mb-3 md:mb-6"
               >
                 <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-1 border border-white/30 shadow-inner">
                   <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent rounded-2xl pointer-events-none" />
@@ -453,8 +453,8 @@ export default function Home() {
                         type="email"
                         value={email}
                         onChange={handleEmailChange}
-                        placeholder="ton@email.com"
-                        className="w-full px-4 py-4 bg-white/15 backdrop-blur-lg border border-white/30 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-sm shadow-inner"
+                        placeholder="your@email.com"
+                        className="w-full px-3 md:px-4 py-3 md:py-4 bg-white/15 backdrop-blur-lg border border-white/30 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-xs md:text-sm shadow-inner"
                         style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
                         required
                         autoComplete="email"
@@ -474,7 +474,7 @@ export default function Home() {
                         value={phone}
                         onChange={handlePhoneChange}
                         placeholder="+212 6 12 34 56 78"
-                        className="w-full px-4 py-4 bg-white/15 backdrop-blur-lg border border-white/30 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-sm shadow-inner"
+                        className="w-full px-3 md:px-4 py-3 md:py-4 bg-white/15 backdrop-blur-lg border border-white/30 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-xs md:text-sm shadow-inner"
                         style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
                         required
                         autoComplete="tel"
@@ -487,7 +487,7 @@ export default function Home() {
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className="relative w-full py-4 bg-white/95 backdrop-blur-sm text-gray-900 font-bold rounded-2xl overflow-hidden group transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed text-sm mt-6 border border-white/20"
+                  className="relative w-full py-3 md:py-4 bg-white/95 backdrop-blur-sm text-gray-900 font-bold rounded-2xl overflow-hidden group transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed text-xs md:text-sm mt-3 md:mt-6 border border-white/20"
                   whileHover={{ scale: 1.005 }}
                   whileTap={{ scale: 0.995 }}
                 >
@@ -500,11 +500,11 @@ export default function Home() {
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Inscription...
+                        Signing up...
                       </>
                     ) : (
                       <>
-                        Rejoindre la Liste
+                        Join the List
                         {notificationMethod === 'email' ? (
                           <svg className="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
@@ -549,10 +549,10 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8, duration: 0.4 }}
-                className="mt-6 text-center text-white/70 text-xs"
+                className="mt-3 md:mt-6 text-center text-white/70 text-[10px] md:text-xs"
                 style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
               >
-                🔒 Tes données sont sécurisées. Aucun spam.
+                🔒 Your data is secure. No spam.
               </motion.p>
             </div>
           </motion.div>
