@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
-// Phone number validation for Morocco format
-const phoneRegex = /^(\+212|0)[5-7]\d{8}$/;
+// Phone number validation for Morocco format - accepts all valid mobile numbers
+const phoneRegex = /^(\+212|0)[5-9]\d{8}$/;
 
 // Schema for validation
 const whitelistSchema = z.object({

@@ -113,6 +113,7 @@ export default function Home() {
   const [messageType, setMessageType] = useState<'success' | 'error' | null>(null);
   const [notificationMethod, setNotificationMethod] = useState<'email' | 'whatsapp'>('email');
   const [isLoading, setIsLoading] = useState(true);
+  const [phoneValidation, setPhoneValidation] = useState<'valid' | 'invalid' | 'empty'>('empty');
   
   // Countdown state
   const [timeLeft, setTimeLeft] = useState({
@@ -171,14 +172,14 @@ export default function Home() {
     const phoneValue = notificationMethod === 'whatsapp' ? phone.trim() : '';
 
     if (notificationMethod === 'email' && !emailValue) {
-      setMessage('Please provide an email address');
+      setMessage('Veuillez fournir une adresse email');
       setMessageType('error');
       setIsSubmitting(false);
       return;
     }
 
     if (notificationMethod === 'whatsapp' && !phoneValue) {
-      setMessage('Please provide a WhatsApp number');
+      setMessage('Veuillez fournir un numéro WhatsApp');
       setMessageType('error');
       setIsSubmitting(false);
       return;
@@ -206,16 +207,93 @@ export default function Home() {
       }
     } catch (error) {
       console.error('Form submission error:', error);
-      setMessage('An error occurred. Please try again.');
+      setMessage('Une erreur est survenue. Veuillez réessayer.');
       setMessageType('error');
     } finally {
       setIsSubmitting(false);
     }
   }, [email, phone, notificationMethod, router]);
 
+  // Phone number validation function - matches backend validation exactly
+  const validatePhoneNumber = useCallback((value: string) => {
+    if (!value || value.trim() === '') return 'empty';
+    
+    // Clean value - remove spaces but keep + and digits
+    const cleanValue = value.replace(/\s/g, '');
+    
+    // Backend regex: /^(\+212|0)[5-9]\d{8}$/
+    const phoneRegex = /^(\+212|0)[5-9]\d{8}$/;
+    
+    return phoneRegex.test(cleanValue) ? 'valid' : 'invalid';
+  }, []);
+
   // Memoized toggle handlers
-  const handleEmailToggle = useCallback(() => setNotificationMethod('email'), []);
-  const handleWhatsAppToggle = useCallback(() => setNotificationMethod('whatsapp'), []);
+  const handleEmailToggle = useCallback(() => {
+    setNotificationMethod('email');
+    setPhoneValidation('empty'); // Reset phone validation when switching to email
+  }, []);
+  const handleWhatsAppToggle = useCallback(() => {
+    setNotificationMethod('whatsapp');
+    // Reset phone validation to current state when switching to WhatsApp
+    if (phone) {
+      const validation = validatePhoneNumber(phone);
+      setPhoneValidation(validation);
+    } else {
+      setPhoneValidation('empty');
+    }
+  }, [phone, validatePhoneNumber]);
+
+  // Phone number formatting function - improved with better edge case handling
+  const formatPhoneNumber = useCallback((value: string) => {
+    // Keep the original if it starts with + and has non-numeric chars (user typing +212...)
+    if (value.startsWith('+') && /\D/.test(value)) {
+      // Allow +212 to be typed
+      if (value === '+' || value === '+2' || value === '+21' || value === '+212') {
+        return value;
+      }
+    }
+    
+    // Remove all non-numeric characters to work with pure numbers
+    const numbers = value.replace(/[^\d]/g, '');
+    
+    // Don't format if too long
+    if (numbers.length > 12) {
+      return value.slice(0, -1); // Remove last character if too long
+    }
+    
+    // Handle different cases
+    if (numbers.startsWith('212')) {
+      // If starts with 212, format as +212 X XX XX XX XX
+      const rest = numbers.substring(3);
+      if (rest.length === 0) return '+212 ';
+      if (rest.length === 1) return `+212 ${rest}`;
+      if (rest.length <= 2) return `+212 ${rest}`;
+      if (rest.length <= 4) return `+212 ${rest.slice(0,1)} ${rest.slice(1)}`;
+      if (rest.length <= 6) return `+212 ${rest.slice(0,1)} ${rest.slice(1,3)} ${rest.slice(3)}`;
+      if (rest.length <= 8) return `+212 ${rest.slice(0,1)} ${rest.slice(1,3)} ${rest.slice(3,5)} ${rest.slice(5)}`;
+      if (rest.length <= 9) return `+212 ${rest.slice(0,1)} ${rest.slice(1,3)} ${rest.slice(3,5)} ${rest.slice(5,7)} ${rest.slice(7)}`;
+      
+    } else if (numbers.startsWith('0')) {
+      // If starts with 0, format as 0X XX XX XX XX
+      if (numbers.length === 1) return '0';
+      if (numbers.length <= 2) return numbers;
+      if (numbers.length <= 4) return `${numbers.slice(0,2)} ${numbers.slice(2)}`;
+      if (numbers.length <= 6) return `${numbers.slice(0,2)} ${numbers.slice(2,4)} ${numbers.slice(4)}`;
+      if (numbers.length <= 8) return `${numbers.slice(0,2)} ${numbers.slice(2,4)} ${numbers.slice(4,6)} ${numbers.slice(6)}`;
+      if (numbers.length <= 10) return `${numbers.slice(0,2)} ${numbers.slice(2,4)} ${numbers.slice(4,6)} ${numbers.slice(6,8)} ${numbers.slice(8)}`;
+      
+    } else if (numbers.length > 0) {
+      // For other cases, assume it's a Moroccan mobile number without country code
+      if (numbers.length === 1) return `+212 ${numbers}`;
+      if (numbers.length <= 2) return `+212 ${numbers}`;
+      if (numbers.length <= 4) return `+212 ${numbers.slice(0,1)} ${numbers.slice(1)}`;
+      if (numbers.length <= 6) return `+212 ${numbers.slice(0,1)} ${numbers.slice(1,3)} ${numbers.slice(3)}`;
+      if (numbers.length <= 8) return `+212 ${numbers.slice(0,1)} ${numbers.slice(1,3)} ${numbers.slice(3,5)} ${numbers.slice(5)}`;
+      if (numbers.length <= 9) return `+212 ${numbers.slice(0,1)} ${numbers.slice(1,3)} ${numbers.slice(3,5)} ${numbers.slice(5,7)} ${numbers.slice(7)}`;
+    }
+    
+    return value; // Return original if can't format
+  }, []);
 
   // Memoized input handlers
   const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -223,8 +301,14 @@ export default function Home() {
   }, []);
 
   const handlePhoneChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
-  }, []);
+    const inputValue = e.target.value;
+    const formatted = formatPhoneNumber(inputValue);
+    setPhone(formatted);
+    
+    // Update validation status
+    const validation = validatePhoneNumber(formatted);
+    setPhoneValidation(validation);
+  }, [formatPhoneNumber, validatePhoneNumber]);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -468,17 +552,47 @@ export default function Home() {
                       exit={{ opacity: 0, x: -20 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <input
-                        id="phone"
-                        type="tel"
-                        value={phone}
-                        onChange={handlePhoneChange}
-                        placeholder="+212 6 12 34 56 78"
-                        className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-white/10 backdrop-blur-lg border border-white/25 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-base shadow-inner"
-                        style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
-                        required
-                        autoComplete="tel"
-                      />
+                      <div>
+                        <input
+                          id="phone"
+                          type="tel"
+                          value={phone}
+                          onChange={handlePhoneChange}
+                          placeholder="+212 6 12 34 56 78"
+                          className={`w-full px-3 md:px-4 py-2.5 md:py-3 bg-white/10 backdrop-blur-lg rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 transition-all duration-200 text-base shadow-inner ${
+                            phoneValidation === 'valid' 
+                              ? 'border border-green-400/50 focus:ring-green-400/50 focus:border-green-400/50' 
+                              : phoneValidation === 'invalid'
+                              ? 'border border-red-400/50 focus:ring-red-400/50 focus:border-red-400/50'
+                              : 'border border-white/25 focus:ring-white/50 focus:border-white/50'
+                          }`}
+                          style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
+                          required
+                          autoComplete="tel"
+                        />
+                        {phoneValidation === 'invalid' && phone.length > 0 && (
+                          <motion.p
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -5 }}
+                            className="text-red-300/90 text-xs mt-1 ml-1"
+                            style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
+                          >
+                            Format valide: +212 6XX XX XX XX ou 06XX XX XX XX
+                          </motion.p>
+                        )}
+                        {phoneValidation === 'valid' && phone.length > 0 && (
+                          <motion.p
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -5 }}
+                            className="text-green-300/90 text-xs mt-1 ml-1"
+                            style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
+                          >
+                            ✓ Numéro WhatsApp valide
+                          </motion.p>
+                        )}
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
