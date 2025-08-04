@@ -51,7 +51,7 @@ export default function SuccessPage() {
       </motion.div>
 
       {/* Main Content */}
-      <div className="relative z-10 text-center max-w-4xl mx-auto flex-1 flex flex-col justify-center pt-24 sm:pt-28 md:pt-32 px-4">
+      <div className="relative z-10 text-center max-w-4xl mx-auto flex-1 flex flex-col justify-center pt-24 sm:pt-28 md:pt-32 px-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -178,7 +178,7 @@ export default function SuccessPage() {
 
             {/* Mobile Horizontal Cards - All Visible in Row */}
             <div className="md:hidden">
-              <div className="flex gap-2 overflow-x-auto pb-2">
+              <div className="flex gap-3 justify-center items-stretch px-2">
                 {[
                   {
                     icon: "🚀",
@@ -201,7 +201,7 @@ export default function SuccessPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.9 + index * 0.1, duration: 0.4 }}
-                    className="flex-shrink-0 w-32"
+                    className="flex-1 max-w-[110px]"
                   >
                     {/* Horizontal Mobile Glass Card */}
                     <div className="relative backdrop-blur-xl bg-gradient-to-br from-white/20 via-white/10 to-white/5 border border-white/30 rounded-2xl p-3 shadow-xl overflow-hidden h-full">
@@ -229,9 +229,9 @@ export default function SuccessPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.6 }}
-            className="mb-8"
+            className="mb-8 px-4"
           >
-            <h3 className="text-lg font-semibold text-white mb-4">Follow us for updates</h3>
+            <h3 className="text-lg font-semibold text-white mb-4 text-center">Follow us for updates</h3>
             <div className="flex items-center justify-center space-x-4">
             <motion.a
                 href="https://www.instagram.com/zolar.off?igsh=ajkxOWpneHptb3Z4"
@@ -252,16 +252,18 @@ export default function SuccessPage() {
 
           {/* Back to Home Button */}
           {showRedirectButton && (
-            <motion.button
-              onClick={handleGoBack}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="px-8 py-3 backdrop-blur-lg bg-white/90 text-gray-900 rounded-2xl font-semibold hover:bg-white transition-all duration-300 shadow-lg border border-white/20"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Back to Home
-            </motion.button>
+            <motion.div className="flex justify-center px-4">
+              <motion.button
+                onClick={handleGoBack}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="px-8 py-3 backdrop-blur-lg bg-white/90 text-gray-900 rounded-2xl font-semibold hover:bg-white transition-all duration-300 shadow-lg border border-white/20"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Back to Home
+              </motion.button>
+            </motion.div>
           )}
         </motion.div>
       </div>
