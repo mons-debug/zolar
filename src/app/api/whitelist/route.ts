@@ -4,10 +4,16 @@ import { z } from 'zod';
 // Phone number validation for Morocco format - accepts all valid mobile numbers
 const phoneRegex = /^(\+212|0)[5-9]\d{8}$/;
 
-// Schema for validation
+// Schema for validation with phone number preprocessing
 const whitelistSchema = z.object({
   email: z.string().email({ message: 'Veuillez entrer une adresse email valide' }).optional().or(z.literal('')),
-  phone: z.string().regex(phoneRegex, { message: 'Veuillez entrer un numéro de téléphone valide (+212 ou 0)' }).optional().or(z.literal(''))
+  phone: z.string()
+    .transform((val) => val.replace(/\s/g, '')) // Remove spaces before validation
+    .refine((val) => val === '' || phoneRegex.test(val), { 
+      message: 'Veuillez entrer un numéro de téléphone valide (+212 ou 0)' 
+    })
+    .optional()
+    .or(z.literal(''))
 }).refine((data) => {
   // At least one field must be provided
   return (data.email && data.email.length > 0) || (data.phone && data.phone.length > 0);
