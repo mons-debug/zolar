@@ -62,6 +62,31 @@ function formatPhoneNumber(phone: string): string {
   return phone;
 }
 
+// Check if contact already exists in Brevo
+async function checkContactExists(email: string): Promise<boolean> {
+  const apiKey = process.env.BREVO_API_KEY;
+  
+  if (!apiKey || apiKey === 'your_brevo_api_key_here') {
+    throw new Error('BREVO_API_KEY is not configured');
+  }
+
+  try {
+    const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'api-key': apiKey
+      }
+    });
+
+    // 200 means contact exists, 404 means it doesn't exist
+    return response.ok;
+  } catch {
+    // If there's any error, assume contact doesn't exist to allow creation attempt
+    return false;
+  }
+}
+
 // Create or update contact in Brevo
 async function createBrevoContact(contactData: BrevoContactData): Promise<BrevoResponse> {
   const apiKey = process.env.BREVO_API_KEY;
@@ -336,6 +361,18 @@ export async function POST(request: NextRequest) {
     }
 
     try {
+      // 1) Check if contact already exists in Brevo (only for email submissions)
+      if (email) {
+        const contactExists = await checkContactExists(email);
+        if (contactExists) {
+          // 200 means "already there"
+          return NextResponse.json(
+            { error: 'This email is already subscribed.' },
+            { status: 409 }
+          );
+        }
+      }
+
       // Create or update contact in Brevo
       const result = await createBrevoContact(contactData);
       console.log('✅ Contact successfully added to Brevo');
