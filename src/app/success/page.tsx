@@ -51,7 +51,7 @@ export default function SuccessPage() {
       </motion.div>
 
       {/* Main Content */}
-      <div className="relative z-10 text-center max-w-4xl mx-auto flex-1 flex flex-col justify-center pt-32 sm:pt-36 md:pt-40 px-4">
+      <div className="relative z-10 text-center max-w-4xl mx-auto flex-1 flex flex-col justify-center pt-24 sm:pt-28 md:pt-32 px-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -62,7 +62,7 @@ export default function SuccessPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="mb-8"
+            className="mb-4"
           >
             <svg viewBox="0 0 500 150" className="w-full max-w-2xl mx-auto h-28 sm:h-32 md:h-40 lg:h-44">
               <defs>
@@ -103,7 +103,7 @@ export default function SuccessPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-xl sm:text-2xl md:text-3xl text-green-100 mb-4 leading-relaxed font-light"
+            className="text-xl sm:text-2xl md:text-3xl text-green-100 mb-2 leading-relaxed font-light"
           >
             Welcome to the exclusive zone
           </motion.p>
@@ -112,7 +112,7 @@ export default function SuccessPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
-            className="text-lg sm:text-xl text-gray-300 mb-12 leading-relaxed"
+            className="text-lg sm:text-xl text-gray-300 mb-6 md:mb-8 leading-relaxed"
           >
             You&apos;re now part of the ZOLAR waitlist.
             <br />
@@ -176,24 +176,24 @@ export default function SuccessPage() {
               ))}
             </div>
 
-            {/* Mobile Static Cards - No Swipe, All Visible */}
+            {/* Mobile Horizontal Cards - All Visible in Row */}
             <div className="md:hidden">
-              <div className="space-y-3">
+              <div className="flex gap-2 overflow-x-auto pb-2">
                 {[
                   {
                     icon: "🚀",
                     title: "Priority Access",
-                    description: "Be first to access new drops and exclusive collections"
+                    description: "Be first to access new drops"
                   },
                   {
                     icon: "💎",
                     title: "Exclusive Drops",
-                    description: "Access to limited edition pieces before public release"
+                    description: "Limited edition pieces"
                   },
                   {
                     icon: "🔔",
                     title: "Instant Notifications",
-                    description: "Get notified immediately when new items are available"
+                    description: "Get notified immediately"
                   }
                 ].map((card, index) => (
                   <motion.div
@@ -201,10 +201,10 @@ export default function SuccessPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.9 + index * 0.1, duration: 0.4 }}
-                    className="w-full"
+                    className="flex-shrink-0 w-32"
                   >
-                    {/* Smaller Mobile Glass Card */}
-                    <div className="relative backdrop-blur-xl bg-gradient-to-br from-white/20 via-white/10 to-white/5 border border-white/30 rounded-2xl p-4 shadow-xl overflow-hidden">
+                    {/* Horizontal Mobile Glass Card */}
+                    <div className="relative backdrop-blur-xl bg-gradient-to-br from-white/20 via-white/10 to-white/5 border border-white/30 rounded-2xl p-3 shadow-xl overflow-hidden h-full">
                       {/* Glass reflection effect */}
                       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent"></div>
                       <div className="absolute top-0 left-0 bottom-0 w-px bg-gradient-to-b from-white/50 via-transparent to-transparent"></div>
@@ -212,10 +212,10 @@ export default function SuccessPage() {
                       {/* Inner shadow */}
                       <div className="absolute inset-[1px] rounded-2xl shadow-inner shadow-white/10"></div>
                       
-                      <div className="relative z-10 text-center">
-                        <div className="text-2xl mb-2">{card.icon}</div>
-                        <h3 className="text-sm font-bold text-white mb-2">{card.title}</h3>
-                        <p className="text-xs text-gray-300 leading-relaxed">{card.description}</p>
+                      <div className="relative z-10 text-center flex flex-col justify-between h-full">
+                        <div className="text-lg mb-1">{card.icon}</div>
+                        <h3 className="text-xs font-bold text-white mb-1 leading-tight">{card.title}</h3>
+                        <p className="text-[10px] text-gray-300 leading-tight">{card.description}</p>
                       </div>
                     </div>
                   </motion.div>
