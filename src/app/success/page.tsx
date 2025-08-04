@@ -1,13 +1,20 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+// Swipe helper functions
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset: number, velocity: number) => {
+  return Math.abs(offset) * velocity;
+};
+
 export default function SuccessPage() {
   const router = useRouter();
   const [showRedirectButton, setShowRedirectButton] = useState(false);
+  const [currentCard, setCurrentCard] = useState(0);
 
   useEffect(() => {
     // Show redirect button after 5 seconds
@@ -57,15 +64,34 @@ export default function SuccessPage() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          {/* Main Title */}
-          <motion.h1
+          {/* Main Title with Curved Text Effect */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 leading-tight bg-gradient-to-r from-white to-green-200 bg-clip-text text-transparent"
+            className="mb-8"
           >
-            BORDERLINE
-          </motion.h1>
+            <svg viewBox="0 0 400 120" className="w-full max-w-md mx-auto h-20 sm:h-24 md:h-28">
+              <defs>
+                <path
+                  id="curve"
+                  d="M 50 80 Q 200 30 350 80"
+                  fill="none"
+                  stroke="none"
+                />
+                <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#ffffff" />
+                  <stop offset="50%" stopColor="#bbf7d0" />
+                  <stop offset="100%" stopColor="#ffffff" />
+                </linearGradient>
+              </defs>
+              <text className="text-2xl sm:text-3xl md:text-4xl font-bold fill-current" fill="url(#textGradient)">
+                <textPath href="#curve" startOffset="50%" textAnchor="middle">
+                  BORDERLINE
+                </textPath>
+              </text>
+            </svg>
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -87,29 +113,95 @@ export default function SuccessPage() {
             Stay connected for exclusive access!
           </motion.p>
 
-          {/* Enhanced Benefits Section */}
+          {/* Enhanced Benefits Section - Swipeable on Mobile */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
-            className="grid md:grid-cols-3 gap-6 mb-12"
+            className="mb-12"
           >
-            <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl">
-              <div className="text-3xl mb-3">🚀</div>
-              <h3 className="text-lg font-semibold text-white mb-2">Priority Access</h3>
-              <p className="text-sm text-gray-300">Be first to access new drops and exclusive collections</p>
+            {/* Desktop Grid */}
+            <div className="hidden md:grid md:grid-cols-3 gap-6">
+              <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl">
+                <div className="text-3xl mb-3">🚀</div>
+                <h3 className="text-lg font-semibold text-white mb-2">Priority Access</h3>
+                <p className="text-sm text-gray-300">Be first to access new drops and exclusive collections</p>
+              </div>
+              
+              <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl">
+                <div className="text-3xl mb-3">💎</div>
+                <h3 className="text-lg font-semibold text-white mb-2">Exclusive Drops</h3>
+                <p className="text-sm text-gray-300">Access to limited edition pieces before public release</p>
+              </div>
+              
+              <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl">
+                <div className="text-3xl mb-3">🔔</div>
+                <h3 className="text-lg font-semibold text-white mb-2">Instant Notifications</h3>
+                <p className="text-sm text-gray-300">Get notified immediately when new items are available</p>
+              </div>
             </div>
-            
-            <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl">
-              <div className="text-3xl mb-3">💎</div>
-              <h3 className="text-lg font-semibold text-white mb-2">Exclusive Drops</h3>
-              <p className="text-sm text-gray-300">Access to limited edition pieces before public release</p>
-            </div>
-            
-            <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl">
-              <div className="text-3xl mb-3">🔔</div>
-              <h3 className="text-lg font-semibold text-white mb-2">Instant Notifications</h3>
-              <p className="text-sm text-gray-300">Get notified immediately when new items are available</p>
+
+            {/* Mobile Swipeable Cards */}
+            <div className="md:hidden relative">
+              <div className="overflow-hidden">
+                <motion.div
+                  className="flex"
+                  animate={{ x: -currentCard * 100 + "%" }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                >
+                  {[
+                    {
+                      icon: "🚀",
+                      title: "Priority Access",
+                      description: "Be first to access new drops and exclusive collections"
+                    },
+                    {
+                      icon: "💎",
+                      title: "Exclusive Drops",
+                      description: "Access to limited edition pieces before public release"
+                    },
+                    {
+                      icon: "🔔",
+                      title: "Instant Notifications",
+                      description: "Get notified immediately when new items are available"
+                    }
+                  ].map((card, index) => (
+                    <motion.div
+                      key={index}
+                      className="w-full flex-shrink-0 px-4"
+                      drag="x"
+                      dragConstraints={{ left: 0, right: 0 }}
+                      onDragEnd={(event, { offset, velocity }) => {
+                        const swipe = swipePower(offset.x, velocity.x);
+                        if (swipe < -swipeConfidenceThreshold) {
+                          setCurrentCard(Math.min(currentCard + 1, 2));
+                        } else if (swipe > swipeConfidenceThreshold) {
+                          setCurrentCard(Math.max(currentCard - 1, 0));
+                        }
+                      }}
+                    >
+                      <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl">
+                        <div className="text-3xl mb-3">{card.icon}</div>
+                        <h3 className="text-lg font-semibold text-white mb-2">{card.title}</h3>
+                        <p className="text-sm text-gray-300">{card.description}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
+              
+              {/* Dots Indicator */}
+              <div className="flex justify-center mt-4 space-x-2">
+                {[0, 1, 2].map((index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentCard(index)}
+                    className={`w-2 h-2 rounded-full transition-colors ${
+                      currentCard === index ? 'bg-white' : 'bg-white/30'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </motion.div>
 
