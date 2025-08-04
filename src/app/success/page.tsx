@@ -31,12 +31,12 @@ export default function SuccessPage() {
         <div className="absolute bottom-1/4 left-1/2 w-96 h-96 bg-teal-600 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-pulse delay-1000"></div>
       </div>
 
-      {/* ZOLAR Logo */}
+      {/* ZOLAR Logo - Fixed positioning */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative z-10 mb-8"
+        className="absolute top-8 left-1/2 transform -translate-x-1/2 z-10"
       >
         <div className="absolute inset-0 bg-white/20 blur-2xl rounded-full scale-110" />
         <Image
@@ -51,7 +51,7 @@ export default function SuccessPage() {
       </motion.div>
 
       {/* Main Content */}
-      <div className="relative z-10 text-center max-w-3xl mx-auto flex-1 flex flex-col justify-center">
+      <div className="relative z-10 text-center max-w-3xl mx-auto flex-1 flex flex-col justify-center pt-24">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -82,7 +82,7 @@ export default function SuccessPage() {
             transition={{ delay: 0.6, duration: 0.6 }}
             className="text-lg sm:text-xl text-gray-300 mb-12 leading-relaxed"
           >
-            You&apos;re now part of the ZOLAR whitelist.
+            You&apos;re now part of the ZOLAR waitlist.
             <br />
             Stay connected for exclusive access!
           </motion.p>
@@ -155,19 +155,7 @@ export default function SuccessPage() {
         </motion.div>
       </div>
 
-      {/* Success Icon - Moved to Bottom and Made Smaller */}
-      <motion.div
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 1.2, type: "spring", stiffness: 200 }}
-        className="relative z-10 mb-8"
-      >
-        <div className="w-12 h-12 bg-green-500/80 backdrop-blur-lg rounded-full flex items-center justify-center border border-green-400/30 shadow-lg">
-          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-          </svg>
-        </div>
-      </motion.div>
+
     </div>
   );
 }
