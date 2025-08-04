@@ -231,21 +231,21 @@ export default function Home() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-green-800 via-black to-emerald-700 bg-200 animate-gradient-slow">
+    <div className="relative h-screen overflow-hidden bg-gradient-to-br from-green-800 via-black to-emerald-700 bg-200 animate-gradient-slow">
 
       {/* Main Content */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-50 flex flex-col items-center justify-center min-h-screen px-4 py-4"
+        className="relative z-50 flex flex-col items-center justify-center h-screen px-4 py-2"
       >
         {/* Logo - Enhanced with cleaner shadow */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex justify-center mb-4 md:mb-8"
+          className="flex justify-center mb-2 md:mb-4"
         >
           <div className="relative">
             <div className="absolute inset-0 bg-white/20 blur-2xl rounded-full scale-110" />
@@ -267,9 +267,9 @@ export default function Home() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex justify-center mb-3 md:mb-6"
+          className="flex justify-center mb-2 md:mb-4"
         >
-          <div className="relative backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-3 md:p-6 shadow-2xl overflow-hidden">
+          <div className="relative backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-2 md:p-4 shadow-2xl overflow-hidden">
             {/* Subtle glass gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 rounded-2xl pointer-events-none" />
             <div className="absolute inset-[1px] bg-gradient-to-b from-white/15 to-transparent rounded-2xl pointer-events-none" />
@@ -279,7 +279,7 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.4 }}
-                className="text-white text-center text-xs md:text-sm mb-2 md:mb-4 font-medium"
+                className="text-white text-center text-xs md:text-sm mb-1 md:mb-2 font-medium"
                 style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}
               >
                 Launch in
@@ -343,7 +343,7 @@ export default function Home() {
           className="w-full max-w-md"
         >
           <motion.div
-            className="relative backdrop-blur-xl bg-white/10 border border-white/25 rounded-3xl shadow-2xl p-4 md:p-8 overflow-hidden"
+            className="relative backdrop-blur-xl bg-white/10 border border-white/25 rounded-3xl shadow-2xl p-3 md:p-6 overflow-hidden"
             whileHover={{ 
               scale: 1.005,
               transition: { duration: 0.2 }
@@ -361,7 +361,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="text-lg md:text-2xl lg:text-3xl font-bold text-white text-center mb-2 md:mb-4 leading-tight"
+                className="text-base md:text-xl lg:text-2xl font-bold text-white text-center mb-1 md:mb-2 leading-tight"
                 style={{ textShadow: '0 2px 8px rgba(0,0,0,0.7)' }}
               >
                 ZOLAR exclusive BORDERLINE
@@ -372,7 +372,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className="text-white/95 text-center text-xs md:text-sm mb-4 md:mb-8 leading-relaxed"
+                className="text-white/95 text-center text-xs md:text-sm mb-2 md:mb-4 leading-relaxed"
                 style={{ textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}
               >
                 Choose how to be notified of the launch
@@ -383,7 +383,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                className="mb-3 md:mb-6"
+                className="mb-2 md:mb-4"
               >
                 <div className="relative bg-white/8 backdrop-blur-lg rounded-2xl p-1 border border-white/25 shadow-inner">
                   <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent rounded-2xl pointer-events-none" />
@@ -454,7 +454,7 @@ export default function Home() {
                         value={email}
                         onChange={handleEmailChange}
                         placeholder="your@email.com"
-                        className="w-full px-3 md:px-4 py-3 md:py-4 bg-white/10 backdrop-blur-lg border border-white/25 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-base shadow-inner"
+                        className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-white/10 backdrop-blur-lg border border-white/25 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-base shadow-inner"
                         style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
                         required
                         autoComplete="email"
@@ -474,7 +474,7 @@ export default function Home() {
                         value={phone}
                         onChange={handlePhoneChange}
                         placeholder="+212 6 12 34 56 78"
-                        className="w-full px-3 md:px-4 py-3 md:py-4 bg-white/10 backdrop-blur-lg border border-white/25 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-base shadow-inner"
+                        className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-white/10 backdrop-blur-lg border border-white/25 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-base shadow-inner"
                         style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
                         required
                         autoComplete="tel"
@@ -487,7 +487,7 @@ export default function Home() {
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className="relative w-full py-3 md:py-4 bg-white/95 backdrop-blur-sm text-gray-900 font-bold rounded-2xl overflow-hidden group transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed text-xs md:text-sm mt-3 md:mt-6 border border-white/20"
+                  className="relative w-full py-2.5 md:py-3 bg-white/95 backdrop-blur-sm text-gray-900 font-bold rounded-2xl overflow-hidden group transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed text-xs md:text-sm mt-2 md:mt-4 border border-white/20"
                   whileHover={{ scale: 1.005 }}
                   whileTap={{ scale: 0.995 }}
                 >
@@ -549,7 +549,7 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8, duration: 0.4 }}
-                className="mt-3 md:mt-6 text-center text-white/70 text-[10px] md:text-xs"
+                className="mt-2 md:mt-3 text-center text-white/70 text-[10px] md:text-xs"
                 style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
               >
                 🔒 Your data is secure. No spam.
