@@ -44,7 +44,7 @@ export default function SuccessPage() {
           alt="ZOLAR"
           width={200}
           height={80}
-          className="h-20 sm:h-24 md:h-28 w-auto relative z-10 drop-shadow-2xl filter brightness-110"
+          className="h-32 sm:h-36 md:h-40 lg:h-44 w-auto relative z-10 drop-shadow-2xl filter brightness-110"
           priority
           quality={95}
         />
@@ -64,7 +64,7 @@ export default function SuccessPage() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="mb-4"
           >
-            <svg viewBox="0 0 500 150" className="w-full max-w-2xl mx-auto h-28 sm:h-32 md:h-40 lg:h-44">
+            <svg viewBox="0 0 500 150" className="w-full max-w-2xl mx-auto h-40 sm:h-44 md:h-52 lg:h-56">
               <defs>
                 <path
                   id="curve"
