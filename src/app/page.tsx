@@ -132,11 +132,11 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Countdown timer effect
+  // Countdown timer effect - Pure 7-day countdown
   useEffect(() => {
-    // Set FIXED target date - 7 days from now (February 2025)
-    // This date remains constant and doesn't change on each visit
-    const targetDate = new Date('2025-02-08T23:59:59Z'); // February 8th, 2025 - approximately 7 days from now
+    // Set target date to exactly 7 days from RIGHT NOW
+    const targetDate = new Date();
+    targetDate.setTime(targetDate.getTime() + (7 * 24 * 60 * 60 * 1000)); // Add exactly 7 days in milliseconds
     
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -159,15 +159,11 @@ export default function Home() {
     // Run once immediately to avoid initial delay
     const now = new Date().getTime();
     const distance = targetDate.getTime() - now;
-    if (distance > 0) {
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      setTimeLeft({ days, hours, minutes, seconds });
-    } else {
-      setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-    }
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    setTimeLeft({ days, hours, minutes, seconds });
 
     return () => clearInterval(interval);
   }, []);
