@@ -138,15 +138,19 @@ export default function Home() {
     let targetDate: Date;
     const storedTargetDate = localStorage.getItem('zolar-countdown-target');
     
+    console.log('🔍 Stored target date:', storedTargetDate);
+    
     if (storedTargetDate) {
       // Use existing target date from localStorage
       targetDate = new Date(storedTargetDate);
+      console.log('✅ Using existing target date:', targetDate);
     } else {
       // Create new target date - 7 days from now
       targetDate = new Date();
       targetDate.setTime(targetDate.getTime() + (7 * 24 * 60 * 60 * 1000)); // Add exactly 7 days in milliseconds
       // Store it in localStorage
       localStorage.setItem('zolar-countdown-target', targetDate.toISOString());
+      console.log('🆕 Created new target date:', targetDate);
     }
     
     const interval = setInterval(() => {
