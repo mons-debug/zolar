@@ -134,9 +134,9 @@ export default function Home() {
 
   // Countdown timer effect
   useEffect(() => {
-    // Set FIXED target date - ZOLAR Launch Date (7 days from August 6th)
+    // Set FIXED target date - 7 days from now (January 2025)
     // This date remains constant and doesn't change on each visit
-    const targetDate = new Date('2024-08-13T00:00:00Z'); // August 13th, 2024 at midnight UTC (7 days from Aug 6th)
+    const targetDate = new Date('2025-01-10T23:59:59Z'); // January 10th, 2025 - 7 days from today
     
     const interval = setInterval(() => {
       const now = new Date().getTime();
