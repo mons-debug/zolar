@@ -132,11 +132,22 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Countdown timer effect - Pure 7-day countdown
+  // Countdown timer effect - Persistent 7-day countdown
   useEffect(() => {
-    // Set target date to exactly 7 days from RIGHT NOW
-    const targetDate = new Date();
-    targetDate.setTime(targetDate.getTime() + (7 * 24 * 60 * 60 * 1000)); // Add exactly 7 days in milliseconds
+    // Check if we have a stored target date, if not create one
+    let targetDate: Date;
+    const storedTargetDate = localStorage.getItem('zolar-countdown-target');
+    
+    if (storedTargetDate) {
+      // Use existing target date from localStorage
+      targetDate = new Date(storedTargetDate);
+    } else {
+      // Create new target date - 7 days from now
+      targetDate = new Date();
+      targetDate.setTime(targetDate.getTime() + (7 * 24 * 60 * 60 * 1000)); // Add exactly 7 days in milliseconds
+      // Store it in localStorage
+      localStorage.setItem('zolar-countdown-target', targetDate.toISOString());
+    }
     
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -150,8 +161,9 @@ export default function Home() {
 
         setTimeLeft({ days, hours, minutes, seconds });
       } else {
-        // Countdown finished - stay at 00:00:00:00
+        // Countdown finished - stay at 00:00:00:00 and clear stored date
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        localStorage.removeItem('zolar-countdown-target'); // Clear so it can start fresh next time
         clearInterval(interval);
       }
     }, 1000);
@@ -159,11 +171,17 @@ export default function Home() {
     // Run once immediately to avoid initial delay
     const now = new Date().getTime();
     const distance = targetDate.getTime() - now;
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    setTimeLeft({ days, hours, minutes, seconds });
+    
+    if (distance > 0) {
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      setTimeLeft({ days, hours, minutes, seconds });
+    } else {
+      setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      localStorage.removeItem('zolar-countdown-target');
+    }
 
     return () => clearInterval(interval);
   }, []);
