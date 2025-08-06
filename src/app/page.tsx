@@ -132,26 +132,13 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Countdown timer effect - Persistent 7-day countdown
+  // Countdown timer effect - GLOBAL countdown for all users worldwide
   useEffect(() => {
-    // Check if we have a stored target date, if not create one
-    let targetDate: Date;
-    const storedTargetDate = localStorage.getItem('zolar-countdown-target');
+    // FIXED TARGET DATE - Same for ALL users worldwide
+    // Set to August 15th, 2024 - Everyone sees the same countdown to this date
+    const targetDate = new Date('2024-08-15T23:59:59Z'); // August 15th, 2024 - GLOBAL for everyone
     
-    console.log('🔍 Stored target date:', storedTargetDate);
-    
-    if (storedTargetDate) {
-      // Use existing target date from localStorage
-      targetDate = new Date(storedTargetDate);
-      console.log('✅ Using existing target date:', targetDate);
-    } else {
-      // Create new target date - 7 days from now
-      targetDate = new Date();
-      targetDate.setTime(targetDate.getTime() + (7 * 24 * 60 * 60 * 1000)); // Add exactly 7 days in milliseconds
-      // Store it in localStorage
-      localStorage.setItem('zolar-countdown-target', targetDate.toISOString());
-      console.log('🆕 Created new target date:', targetDate);
-    }
+    console.log('🌍 Global target date for all users:', targetDate);
     
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -165,9 +152,8 @@ export default function Home() {
 
         setTimeLeft({ days, hours, minutes, seconds });
       } else {
-        // Countdown finished - stay at 00:00:00:00 and clear stored date
+        // Countdown finished - stay at 00:00:00:00
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        localStorage.removeItem('zolar-countdown-target'); // Clear so it can start fresh next time
         clearInterval(interval);
       }
     }, 1000);
@@ -184,7 +170,6 @@ export default function Home() {
       setTimeLeft({ days, hours, minutes, seconds });
     } else {
       setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      localStorage.removeItem('zolar-countdown-target');
     }
 
     return () => clearInterval(interval);
