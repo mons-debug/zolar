@@ -115,12 +115,12 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [phoneValidation, setPhoneValidation] = useState<'valid' | 'invalid' | 'empty'>('empty');
   
-  // Countdown state
+  // Countdown state - starts at 0 until calculated
   const [timeLeft, setTimeLeft] = useState({
-    days: 7,
-    hours: 12,
-    minutes: 34,
-    seconds: 56
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
   });
 
   // Optimized loading effect
@@ -134,13 +134,10 @@ export default function Home() {
 
   // Countdown timer effect
   useEffect(() => {
-    // Set target date (7 days from now as example)
-    const targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() + 7);
-    targetDate.setHours(targetDate.getHours() + 12);
-    targetDate.setMinutes(targetDate.getMinutes() + 34);
-    targetDate.setSeconds(targetDate.getSeconds() + 56);
-
+    // Set FIXED target date - ZOLAR Launch Date
+    // This date remains constant and doesn't change on each visit
+    const targetDate = new Date('2025-02-15T00:00:00Z'); // February 15th, 2025 at midnight UTC
+    
     const interval = setInterval(() => {
       const now = new Date().getTime();
       const distance = targetDate.getTime() - now;
@@ -153,10 +150,24 @@ export default function Home() {
 
         setTimeLeft({ days, hours, minutes, seconds });
       } else {
+        // Countdown finished - stay at 00:00:00:00
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         clearInterval(interval);
       }
     }, 1000);
+
+    // Run once immediately to avoid initial delay
+    const now = new Date().getTime();
+    const distance = targetDate.getTime() - now;
+    if (distance > 0) {
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      setTimeLeft({ days, hours, minutes, seconds });
+    } else {
+      setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+    }
 
     return () => clearInterval(interval);
   }, []);
