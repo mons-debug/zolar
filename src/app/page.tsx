@@ -134,9 +134,9 @@ export default function Home() {
 
   // Countdown timer effect
   useEffect(() => {
-    // Set FIXED target date - 7 days from now (January 2025)
+    // Set FIXED target date - 7 days from now (February 2025)
     // This date remains constant and doesn't change on each visit
-    const targetDate = new Date('2025-01-10T23:59:59Z'); // January 10th, 2025 - 7 days from today
+    const targetDate = new Date('2025-02-08T23:59:59Z'); // February 8th, 2025 - approximately 7 days from now
     
     const interval = setInterval(() => {
       const now = new Date().getTime();
