@@ -135,8 +135,8 @@ export default function Home() {
   // Countdown timer effect - GLOBAL countdown for all users worldwide
   useEffect(() => {
     // FIXED TARGET DATE - Same for ALL users worldwide
-    // Set to August 12th, 2025 (5 days from August 7th, 2025) - Everyone sees the same countdown
-    const targetDate = new Date('2025-08-12T23:59:59Z'); // August 12th, 2025 - 5 days from Aug 7th, 2025
+    // Set to August 15th, 2025 (Global end date) - Everyone sees the same countdown
+    const targetDate = new Date('2025-08-15T23:59:59Z'); // August 15th, 2025 23:59:59 UTC
     
     console.log('🌍 Global target date for all users:', targetDate);
     
