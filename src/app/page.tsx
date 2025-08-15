@@ -136,7 +136,7 @@ export default function Home() {
   useEffect(() => {
     // FIXED TARGET DATE - Same for ALL users worldwide
     // Set to August 15th, 2025 (Global end date) - Everyone sees the same countdown
-    const targetDate = new Date('2025-08-15T23:59:59Z'); // August 15th, 2025 23:59:59 UTC
+    const targetDate = new Date('2025-08-16T09:59:59Z'); // August 16th, 2025 09:59:59 UTC (added 10 hours)
     
     console.log('🌍 Global target date for all users:', targetDate);
     
